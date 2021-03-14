@@ -98,6 +98,8 @@ void ClearOutput() {
 void Compress(unsigned long long input_bytes, std::ifstream* is,
     std::ofstream* os, unsigned long long* output_bytes, Predictor* p) {
   Encoder e(os, p);
+
+  FILE* progress = fopen("./progress.log", "w");
   unsigned long long percent = 1 + (input_bytes / 10000);
   ClearOutput();
   for (unsigned long long pos = 0; pos < input_bytes; ++pos) {
@@ -109,6 +111,9 @@ void Compress(unsigned long long input_bytes, std::ifstream* is,
       double frac = 100.0 * pos / input_bytes;
       fprintf(stderr, "\rprogress: %.2f%%", frac);
       fflush(stderr);
+
+      fprintf(progress, "%.2f %llu\n", frac, os->tellp());
+      fflush(progress);
     }
   }
   e.Flush();
