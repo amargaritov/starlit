@@ -36,8 +36,9 @@ LstmLayer::LstmLayer(unsigned int input_size, unsigned int auxiliary_input_size,
     forget_gate_(input_size, num_cells, horizon, output_size_ + input_size_),
     input_node_(input_size, num_cells, horizon, output_size_ + input_size_),
     output_gate_(input_size, num_cells, horizon, output_size_ + input_size_) {
-  float low = -0.2;
-  float range = 0.4;
+  float val = sqrt(6.0f / float(input_size_ + output_size_));
+  float low = -val;
+  float range = 2 * val;
   for (unsigned int i = 0; i < num_cells_; ++i) {
     for (unsigned int j = 0; j < forget_gate_.weights_[i].size(); ++j) {
       forget_gate_.weights_[i][j] = low + Rand() * range;
@@ -80,8 +81,8 @@ void LstmLayer::ForwardPass(NeuronLayer& neurons,
     }
     neurons.norm_[epoch_][i] = f;
   }
-  neurons.ivar_[epoch_] = 1.0 / sqrt(((neurons.norm_[epoch_] *
-      neurons.norm_[epoch_]).sum() / num_cells_) + 1e-5);
+  neurons.ivar_[epoch_] = 1.0f / sqrt(((neurons.norm_[epoch_] *
+      neurons.norm_[epoch_]).sum() / num_cells_) + 1e-5f);
   neurons.norm_[epoch_] *= neurons.ivar_[epoch_];
   neurons.state_[epoch_] = neurons.norm_[epoch_] * neurons.gamma_ +
       neurons.beta_;
@@ -117,7 +118,9 @@ void LstmLayer::BackwardPass(const std::valarray<float>&input, int epoch,
     state_error_ *= forget_gate_.state_[epoch];
     stored_error_ = 0;
   } else {
-    ++update_steps_;
+    if (update_steps_ < UPDATE_LIMIT) {
+      ++update_steps_;
+    }
   }
 
   BackwardPass(forget_gate_, input, epoch, layer, input_symbol, hidden_error);
