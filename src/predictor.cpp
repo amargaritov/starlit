@@ -23,11 +23,12 @@
 
 Predictor::Predictor(const std::vector<bool>& vocab) : manager_(),
     sigmoid_(100001), vocab_(vocab) {
-  srand(0xDEADBEEF);
+//  srand(0xDEADBEEF);
+  srand(SEED);
 
   AddBracket();
   AddPAQ8HP();
-  AddPAQ8();
+//  AddPAQ8();
   AddPPMD();
   AddWord();
   AddDirect();
@@ -75,16 +76,16 @@ void Predictor::AddAuxiliary() {
 }
 
 void Predictor::AddPAQ8HP() {
-  PAQ8HP* paq = new PAQ8HP(11);
+  PAQ8HP* paq = new PAQ8HP(10);
   AddModel(paq);
   AddAuxiliary();
 }
 
-void Predictor::AddPAQ8() {
-  PAQ8* paq = new PAQ8(11);
-  AddModel(paq);
-  AddAuxiliary();
-}
+//void Predictor::AddPAQ8() {
+//  PAQ8* paq = new PAQ8(11);
+//  AddModel(paq);
+//  AddAuxiliary();
+//}
 
 void Predictor::AddBracket() {
   AddModel(new Bracket(manager_.bit_context_, 200, 10, 100000, vocab_));
@@ -97,8 +98,8 @@ void Predictor::AddBracket() {
 }
 
 void Predictor::AddPPMD() {
-  AddByteModel(new PPMD::PPMD(6, 1200, manager_.bit_context_, vocab_));
-  AddByteModel(new PPMD::PPMD(16, 1200, manager_.bit_context_, vocab_));
+  AddByteModel(new PPMD::PPMD(6, 850, manager_.bit_context_, vocab_));
+  AddByteModel(new PPMD::PPMD(16, 850, manager_.bit_context_, vocab_));
 }
 
 void Predictor::AddWord() {
@@ -183,7 +184,7 @@ void Predictor::AddMixers() {
     if (vocab_[i]) ++vocab_size;
   }
   AddByteMixer(new ByteMixer(byte_models_.size(), manager_.bit_context_, vocab_,
-      vocab_size, new Lstm(vocab_size, vocab_size, 200, 2, 100, 0.03, 10)));
+      vocab_size, new Lstm(vocab_size, vocab_size, 200, 1, 128, 0.03, 10)));
   AddAuxiliary();
 
   for (int i = 0; i < 3; ++i) {

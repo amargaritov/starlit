@@ -29,7 +29,7 @@ class Predictor {
       float learning_rate);
   void AddByteMixer(ByteMixer* byte_mixer);
   void AddAuxiliary();
-  void AddPAQ8();
+//  void AddPAQ8();
   void AddPAQ8HP();
   void AddPPMD();
   void AddBracket();
