@@ -1,31 +1,19 @@
 #!/bin/bash -x
 
-#SEED="$1"
-#UPDATE_LIMIT="$2"
+BINARY="$1"
+if [ -z "$BINARY" ]; then 
+	echo "Please provide a path to prebuilt cmix compressor binary"
+	exit 1
+fi
 
 SEED="9489"
 UPDATE_LIMIT="3000"
-
-rm -rf pgo_data 
-mkdir -p pgo_data 
-
-# building with PGO
-CFLAGS_DEFINES="-DSEED=$SEED -DUPDATE_LIMIT=$UPDATE_LIMIT"
-make CFLAGS_DEFINES="$CFLAGS_DEFINES" prof_gen -j 
-
-./cmix -c ./prof_input/input ./prof_comp > ./prof_output
-rm ./prof_comp ./prof_output 
-llvm-profdata-12 merge -output=default.profdata ./pgo_data/*
-mv default.profdata pgo_data/
-
-make CFLAGS_DEFINES="$CFLAGS_DEFINES" prof_use -j
-upx-ucl -9 cmix 
 
 # this is a directory where the compressor binary will be placed 
 DIR=run
 mkdir -p ./$DIR
 ROOT=$(pwd)
-cp ./cmix $DIR/cmix_orig
+cp $BINARY $DIR/cmix_orig
 git diff > $DIR/patch
 
 # building a selfextracting binary 
