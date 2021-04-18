@@ -43,8 +43,23 @@ float Mixer::Mix() {
 
 void Mixer::Perceive(int bit) {
   ContextData* data = GetContextData();
-  float decay = 0.9 / pow(0.0000001 * steps_ + 0.8, 0.8);
-  decay *= 1.5 - ((1.0 * data->steps) / max_steps_);
+//  float decay = 0.9f / pow(0.0000001f * steps_ + 0.8f, 0.8f);
+//  decay *= 1.5f - ((1.0f * data->steps) / max_steps_);
+
+  float decay;
+  if ( steps_ < 1000000) {
+    decay = 1;
+  } else {
+    if ( steps_ < 5000000) {
+      decay = 0.7;
+    } else {
+      if ( steps_ < 25000000) {
+        decay = 0.3;
+      } else {
+        decay = 0.2;
+      }
+    }
+  }
   float update = decay * learning_rate_ * (Sigmoid::Logistic(p_) - bit);
   ++steps_;
   ++data->steps;
@@ -53,9 +68,9 @@ void Mixer::Perceive(int bit) {
   }
   data->weights -= update * inputs_;
   data->extra_weights -= update * extra_inputs_;
-  if (data->steps % 1000 == 0) {
-    data->weights *= 1.0 - 3.0e-6;
-    data->extra_weights *= 1.0 - 3.0e-6;
+//  if (data->steps % 1000 == 0) {
+  if ((data->steps & 1023) == 0) {
+    data->weights *= 1.0f - 3.0e-6f;
+    data->extra_weights *= 1.0f - 3.0e-6f;
   }
 }
-

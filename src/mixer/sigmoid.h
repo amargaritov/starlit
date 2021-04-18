@@ -8,6 +8,7 @@ class Sigmoid {
   Sigmoid(int logit_size);
   float Logit(float p) const;
   static float Logistic(float p);
+  static float FastLogistic(float p);
 
  private:
   float SlowLogit(float p);

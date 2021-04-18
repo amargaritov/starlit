@@ -4,11 +4,23 @@
 #include <cstdlib>
 #include <vector>
 #include <string.h>
+#include <sys/stat.h>
 
 #include "preprocess/preprocessor.h"
 #include "coder/encoder.h"
 #include "coder/decoder.h"
 #include "predictor.h"
+
+#include "readalike_prepr/article_reorder.h"
+#include "readalike_prepr/self_extract.h"
+#include "readalike_prepr/phda9_preprocess.h"
+#include "readalike_prepr/misc.h"
+
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 
 namespace {
   const int kMinVocabFileSize = 10000;
@@ -17,6 +29,8 @@ namespace {
 int Help() {
   printf("cmix version 18\n");
   printf("Compress:\n");
+  printf("    to compress enwik9: cmix -e enwik9 [output]\n");
+  printf("    to create a header for hutter prize: cmix -h comp_dict_size comp_new_order_size decomp_input_size\n");
   printf("    with dictionary:    cmix -c [dictionary] [input] [output]\n");
   printf("    without dictionary: cmix -c [input] [output]\n");
   printf("    no preprocessing:   cmix -n [input] [output]\n");
@@ -268,31 +282,73 @@ bool RunDecompression(const std::string& input_path,
   return true;
 }
 
-int main(int argc, char* argv[]) {
-  if (argc < 4 || argc > 5 || strlen(argv[1]) != 2 || argv[1][0] != '-' ||
+int main(int argc, char** argv) {
+  if ((argc != 1) && (argv[1][1] != 'h') && (argc < 4 || argc > 5 || strlen(argv[1]) != 2 || argv[1][0] != '-' ||
       (argv[1][1] != 'c' && argv[1][1] != 'd' && argv[1][1] != 's' &&
-      argv[1][1] != 'n')) {
+      argv[1][1] != 'n' && argv[1][1] != 'e' ))) {
     return Help();
   }
 
   clock_t start = clock();
 
   bool enable_preprocess = true;
-  if (argv[1][1] == 'n') enable_preprocess = false;
-  std::string input_path = argv[2];
-  std::string output_path = argv[3];
+  std::string input_path ;
+  std::string output_path;
   FILE* dictionary = NULL;
-  if (argc == 5) {
-    if (argv[1][1] == 'n') return Help();
-    dictionary = fopen(argv[2], "rb");
-    if (!dictionary) return Help();
-    input_path = argv[3];
-    output_path = argv[4];
+
+  
+  if ((argc > 1) && (argv[1][1] != 'h'))  {
+    if (argv[1][1] == 'n') enable_preprocess = false;
+    input_path = argv[2];
+    output_path = argv[3];
+    if (argc == 5) {
+      if (argv[1][1] == 'n') return Help();
+      dictionary = fopen(argv[2], "rb");
+      if (!dictionary) return Help();
+      input_path = argv[3];
+      output_path = argv[4];
+    }
   }
 
   std::string temp_path = output_path + ".cmix.temp";
 
   unsigned long long input_bytes = 0, output_bytes = 0;
+
+  if (argc == 1) {
+    //Decompress enwik9
+    // unpack a) header b) cmix dictionary, c) new order of articles, d) actual cmix binary
+    std::cout << "Uncompressing the dictionary and the input for cmix" << std::endl;
+    selfextract_decomp();
+
+    // run compression
+    std::cout << "Running cmix decompression..." << std::endl;
+    input_path = ".ready4cmix_decomp";
+    output_path = ".input_decomp" ;
+    dictionary = fopen(".dict_decomp", "rb");
+    if (!RunDecompression(input_path, temp_path, output_path, dictionary,
+        &input_bytes, &output_bytes)) {
+      return Help();
+    }
+    std::cout << "Cmix decompression finished" << std::endl;
+
+    std::cout << "Prepared the decompressed file for restoring the order of articles" << std::endl;
+    split4Decomp();
+
+    // apply phda9 preprocessor
+    std::cout << "Revert phda9 preprocessing" << std::endl;
+    phda9_resto();
+
+    // change the order of articles in the input 
+    std::cout << "Restore article order" << std::endl;
+    sort();
+
+    // merge all input parts after preprocessing
+    std::cout << "Construct enwik9" << std::endl;
+    cat(".intro_decomp", ".main_decomp_restored_sorted", "un1_d");
+    cat("un1_d", ".coda_decomp", "enwik9_uncompressed");
+
+    goto print_end_message;
+  }
 
   if (argv[1][1] == 's') {
     if (!Store(input_path, temp_path, output_path, dictionary, &input_bytes,
@@ -304,6 +360,84 @@ int main(int argc, char* argv[]) {
         dictionary, &input_bytes, &output_bytes)) {
       return Help();
     }
+  } else if (argv[1][1] == 'e') {
+    // Compress enwik9
+    input_path = argv[2];
+    output_path = argv[3]; //name of a compressor output
+
+
+    std::cout << "Uncompressing the dictionary and the file with the new order of articles" << std::endl;
+    // unpack a) cmix dictionary, b) new order of articles, c) actual cmix binary
+    selfextract_comp();
+
+    std::cout << "Preparing enwik9 for reordering" << std::endl;
+    split4Comp(input_path.c_str());
+
+    // change the order of articles in the input 
+    std::cout << "Reordering enwik9 articles" << std::endl;
+    reorder();
+
+    // apply phda9 preprocessor
+    std::cout << "Applying phda9 preprocessor to the reordered enwik9" << std::endl;
+    phda9_prepr();
+
+    // merge all input parts after preprocessing
+    std::cout << "Merging all parts into one input file for cmix" << std::endl;
+    cat(".main_phda9prepr", ".intro", "un1");
+    cat("un1", ".coda", ".ready4cmix");
+
+    // run compression
+    std::cout << "Cmix compression..." << std::endl;
+    input_path = ".ready4cmix";
+    dictionary = fopen(".dict", "rb");
+    if (!RunCompression(enable_preprocess, input_path, temp_path, output_path,
+        dictionary, &input_bytes, &output_bytes)) {
+      return Help();
+    }
+    std::cout << "Cmix compression finished" << std::endl;
+
+    // construct a selfextracting decompressor binary
+    // archive9 = decomp_binary(upxed) + comp_dict + cmix_output + header.dat
+    std::cout << "Constructing the selfextracting archive9" << std::endl;
+    cat(".decomp_bin", ".dict.comp", "dec1");
+
+    // get the size of the output file
+    FILE *f = fopen(output_path.c_str(), "rb");
+    if (f == NULL) {
+      printf("can't open output file for measuring its size"), exit(1);
+    }
+    fseek(f, 0, SEEK_END);
+    size_t output_size = ftell(f);
+    fclose(f);
+
+    HeaderInfo header;
+    read("test.dat", header);
+    header.decomp_input_size = output_size;
+    write("header4archive.dat", header);
+    
+    cat("dec1", output_path.c_str(), "dec2");
+    cat("dec2", "header4archive.dat", "archive9");
+
+    //make the decompressor binary executable
+    char mode[] = "0777";
+    char buf[100] = "archive9";
+    int i = strtol(mode, 0, 8);
+    chmod(buf, i);
+
+    // debugAllPrepare();// debug
+    // goto print_end_message;
+  } else if (argv[1][1] == 'h') {
+    std::cout << argc << " " << sizeof(HeaderInfo) << std::endl << std::flush;
+    if (argc < 5) return Help();
+    HeaderInfo header;
+    header.dict_size = atoi(argv[2]);
+    header.new_article_order_size = atoi(argv[3]);
+    header.decomp_input_size = atoi(argv[4]);
+    write("header.dat", header);
+    std::cout << "Successfully created header.dat with dict_size=" << header.dict_size 
+              << " new_article_order_size=" << header.new_article_order_size 
+              << " decomp_input_size=" << header.decomp_input_size << std::endl;
+    goto exit;
   } else {
     if (!RunDecompression(input_path, temp_path, output_path, dictionary,
         &input_bytes, &output_bytes)) {
@@ -311,16 +445,61 @@ int main(int argc, char* argv[]) {
     }
   }
 
+print_end_message:
   printf("\r%lld bytes -> %lld bytes in %1.2f s.\n",
       input_bytes, output_bytes,
       ((double)clock() - start) / CLOCKS_PER_SEC);
 
-  if (argv[1][1] == 'c') {
-    double cross_entropy = output_bytes;
-    cross_entropy /= input_bytes;
-    cross_entropy *= 8;
-    printf("cross entropy: %.3f\n", cross_entropy);
+  if (argc > 1) {
+    if (argv[1][1] == 'c') {
+      double cross_entropy = output_bytes;
+      cross_entropy /= input_bytes;
+      cross_entropy *= 8;
+      printf("cross entropy: %.3f\n", cross_entropy);
+    }
   }
-
+exit:
   return 0;
+}
+
+void debugAllPrepapre(std::string input_path, std::string output_path) {
+    // Compress enwik9
+    // unpack a) cmix dictionary, b) new order of articles, c) actual cmix binary
+    selfextract_comp();
+    std::cout << __LINE__ << std::endl << std::flush;
+
+    split4Comp(input_path.c_str());
+    std::cout << __LINE__ << std::endl << std::flush;
+
+    // change the order of articles in the input 
+    reorder();
+    std::cout << __LINE__ << std::endl << std::flush;
+
+    // apply phda9 preprocessor
+    phda9_prepr();
+    std::cout << __LINE__ << std::endl << std::flush;
+
+    // merge all input parts after preprocessing
+    cat(".main_phda9prepr", ".intro", "un1");
+    cat("un1", ".coda", ".input_decomp");
+    std::cout << __LINE__ << std::endl << std::flush;
+
+//-->
+
+    split4Decomp();
+    std::cout << __LINE__ << std::endl << std::flush;
+
+    // apply phda9 preprocessor
+    phda9_resto();
+    std::cout << __LINE__ << std::endl << std::flush;
+
+    // change the order of articles in the input 
+    sort();
+    std::cout << __LINE__ << std::endl << std::flush;
+
+    // merge all input parts after preprocessing
+    cat(".intro_decomp", ".main_decomp_restored_sorted", "un1_d");
+    cat("un1_d", ".coda_decomp", "enwik9_restored");
+
+    std::cout << "Finished" << std::endl << std::flush;
 }

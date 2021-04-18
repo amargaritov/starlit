@@ -20,6 +20,9 @@
 #include <vector>
 #include <stdlib.h>
 #include <stdio.h>
+#include <cstdlib>
+
+#include <iostream>
 
 Predictor::Predictor(const std::vector<bool>& vocab) : manager_(),
     sigmoid_(100001), vocab_(vocab) {
@@ -81,11 +84,11 @@ void Predictor::AddPAQ8HP() {
   AddAuxiliary();
 }
 
-//void Predictor::AddPAQ8() {
-//  PAQ8* paq = new PAQ8(11);
-//  AddModel(paq);
-//  AddAuxiliary();
-//}
+void Predictor::AddPAQ8() {
+  PAQ8* paq = new PAQ8(10);
+  AddModel(paq);
+  AddAuxiliary();
+}
 
 void Predictor::AddBracket() {
   AddModel(new Bracket(manager_.bit_context_, 200, 10, 100000, vocab_));
@@ -183,8 +186,9 @@ void Predictor::AddMixers() {
   for (unsigned int i = 0; i < vocab_.size(); ++i) {
     if (vocab_[i]) ++vocab_size;
   }
+  std::cout << "Vocab size" << vocab_size << std::endl;
   AddByteMixer(new ByteMixer(byte_models_.size(), manager_.bit_context_, vocab_,
-      vocab_size, new Lstm(vocab_size, vocab_size, 200, 1, 128, 0.03, 10)));
+      vocab_size, new Lstm(vocab_size, vocab_size, 180, 1, 128, 0.03, 10)));
   AddAuxiliary();
 
   for (int i = 0; i < 3; ++i) {
@@ -305,26 +309,26 @@ void Predictor::AddMixers() {
   input_size = mixers_[0].size() + auxiliary_.size();
   layers_[1]->SetNumModels(input_size);
 
-  AddMixer(1, manager_.zero_context_, 0.005);
-  AddMixer(1, manager_.zero_context_, 0.0005);
-  AddMixer(1, manager_.long_bit_context_, 0.005);
-  AddMixer(1, manager_.long_bit_context_, 0.0005);
-  AddMixer(1, manager_.long_bit_context_, 0.00001);
-  AddMixer(1, manager_.recent_bytes_[0], 0.005);
-  AddMixer(1, manager_.recent_bytes_[1], 0.005);
-  AddMixer(1, manager_.recent_bytes_[2], 0.005);
-  AddMixer(1, manager_.longest_match_, 0.0005);
-  AddMixer(1, manager_.wrt_context_, 0.002);
-  AddMixer(1, interval1.GetContext(), 0.001);
-  AddMixer(1, interval2.GetContext(), 0.001);
-  AddMixer(1, interval3.GetContext(), 0.001);
-  AddMixer(1, interval4.GetContext(), 0.001);
-  AddMixer(1, interval5.GetContext(), 0.001);
-  AddMixer(1, interval6.GetContext(), 0.001);
-  AddMixer(1, interval7.GetContext(), 0.001);
-  AddMixer(1, bit_context4.GetContext(), 0.001);
-  AddMixer(1, bit_context5.GetContext(), 0.001);
-  AddMixer(1, bit_context6.GetContext(), 0.001);
+//  AddMixer(1, manager_.zero_context_, 0.005);
+//  AddMixer(1, manager_.zero_context_, 0.0005);
+//  AddMixer(1, manager_.long_bit_context_, 0.005);
+//  AddMixer(1, manager_.long_bit_context_, 0.0005);
+//  AddMixer(1, manager_.long_bit_context_, 0.00001);
+//  AddMixer(1, manager_.recent_bytes_[0], 0.005);
+//  AddMixer(1, manager_.recent_bytes_[1], 0.005);
+//  AddMixer(1, manager_.recent_bytes_[2], 0.005);
+//  AddMixer(1, manager_.longest_match_, 0.0005);
+//  AddMixer(1, manager_.wrt_context_, 0.002);
+//  AddMixer(1, interval1.GetContext(), 0.001);
+//  AddMixer(1, interval2.GetContext(), 0.001);
+//  AddMixer(1, interval3.GetContext(), 0.001);
+//  AddMixer(1, interval4.GetContext(), 0.001);
+//  AddMixer(1, interval5.GetContext(), 0.001);
+//  AddMixer(1, interval6.GetContext(), 0.001);
+//  AddMixer(1, interval7.GetContext(), 0.001);
+//  AddMixer(1, bit_context4.GetContext(), 0.001);
+//  AddMixer(1, bit_context5.GetContext(), 0.001);
+//  AddMixer(1, bit_context6.GetContext(), 0.001);
 
   input_size = mixers_[0].size() + mixers_[1].size() + auxiliary_.size();
   layers_[2]->SetNumModels(input_size);

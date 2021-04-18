@@ -27,6 +27,7 @@
 #include <math.h>
 #include <ctype.h>
 #include <algorithm>
+#include <sys/mman.h>
 #define NDEBUG
 
 #ifndef DEFAULT_OPTION
@@ -123,6 +124,7 @@ template<class T, int ALIGN> void Array<T, ALIGN>::create(U32 i) {
   }
   const U32 sz=ALIGN+n*sizeof(T);
   ptr = (char*)calloc(sz, 1);
+  madvise(ptr, sz, MADV_HUGEPAGE);
   if (!ptr) quit("Out of memory");
   data = (ALIGN ? (T*)(ptr+ALIGN-(((long long)ptr)&(ALIGN-1))) : (T*)ptr);
 }
@@ -523,7 +525,10 @@ Mixer::Mixer(int n, int m, int s, int w):
     pr[i]=2048;
   for (i=0; i<N*M; ++i)
     wx[i]=w;
-  if (S>1) mp=new Mixer(S, 1, 1, 0x7fff);
+  if (S>1) {
+    mp=new Mixer(S, 1, 1, 0x7fff);
+    madvise(mp, sizeof(Mixer), MADV_HUGEPAGE);
+  }
 }
 
 class APM {
@@ -717,6 +722,7 @@ inline U8* ContextMap::E::get(U16 ch, int j) {
 ContextMap::ContextMap(U32 m, int c): C(c), Sz((m>>6)-1), t(m>>6), cp(c), cp0(c),
     cxt(c), runp(c), cn(0) {
   sm=new StateMap[C];
+  madvise(sm, sizeof(StateMap) * C, MADV_HUGEPAGE);
   for (int i=0; i<C; ++i) {
     cp0[i]=cp[i]=&t[0].bh[0][0];
     runp[i]=cp[i]+3;
@@ -1176,6 +1182,7 @@ PAQ8HP::PAQ8HP(int memory) {
   paq8hp::level = memory;
   paq8hp::buf.setsize(paq8hp::MEM()*8);
   predictor_.reset(new paq8hp::Predictor());
+  madvise(predictor_.get(), sizeof(paq8hp::Predictor), MADV_HUGEPAGE);
 }
 
 const std::valarray<float>& PAQ8HP::Predict() {

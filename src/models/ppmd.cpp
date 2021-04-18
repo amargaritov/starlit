@@ -4,6 +4,7 @@
 
 #include "ppmd.h"
 #include <cstring>
+#include <sys/mman.h>
 
 namespace PPMD {
 
@@ -127,6 +128,7 @@ uint U2B( uint NU ) {
 int StartSubAllocator( qword SASize ) {
   qword t = SASize << 20U;
   HeapStart = new byte[t];
+  madvise(HeapStart, t, MADV_HUGEPAGE);
 
   if( HeapStart==NULL ) return 0;
   SubAllocatorSize = t;
