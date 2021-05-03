@@ -1,14 +1,14 @@
 #ifndef SELF_EXTRACT_H 
 #define SELF_EXTRACT_H 
 
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
 
 #include <string>
 #include <fstream>
 
-#include <iostream>
+//#include <iostream>
 
 struct HeaderInfo {
   int dict_size;
@@ -37,15 +37,15 @@ int selfextract_comp() {
 // open itslef to read auxilary data (dictionary and neworder)
   FILE *f = NULL, *fo = NULL;
   f = fopen("cmix", "rb");
-  if (f == NULL) {
-    printf("can't open cmix file (itself)"), exit(1);
-  }
+//  if (f == NULL) {
+//    printf("can't open cmix file (itself)"), exit(1);
+//  }
 
   // get the size of the whole binary
   fseek(f, 0, SEEK_END);
   size_t fsize = ftell(f);
   fseek(f, 0, SEEK_SET);
-  std::cout << "fsize=" << fsize << std::endl;
+//  std::cout << "fsize=" << fsize << std::endl;
 
   unsigned char *p1 = (unsigned char *)malloc(fsize);
   // read the whole binary to memory
@@ -54,46 +54,46 @@ int selfextract_comp() {
 
   // read header info
   fo = fopen("test.dat", "wb");
-  if (fo == NULL) {
-    printf("can't open test.dat file"), exit(1);
-  }
+//  if (fo == NULL) {
+//    printf("can't open test.dat file"), exit(1);
+//  }
   fwrite(p1 + fsize - sizeof(HeaderInfo), sizeof(HeaderInfo), 1, fo);
   fclose(fo);
   read("test.dat", header);
-  std::cout << "Successfully read header file (test.dat) with dict_size=" << header.dict_size 
-            << " new_article_order_size=" << header.new_article_order_size 
-            << " decomp_input_size=" << header.decomp_input_size 
-            << std::endl;
+//  std::cout << "Successfully read header file (test.dat) with dict_size=" << header.dict_size 
+//            << " new_article_order_size=" << header.new_article_order_size 
+//            << " decomp_input_size=" << header.decomp_input_size 
+//            << std::endl;
 
   size_t decmpressor_binary_size = fsize - header.dict_size - header.new_article_order_size - sizeof(HeaderInfo);
 
 // produce actual decompressor binary 
   fo = fopen(".decomp_bin", "wb");
-  if (fo == NULL) {
-    printf("can't open .decomp_bin file"), exit(1);
-  }
+//  if (fo == NULL) {
+//    printf("can't open .decomp_bin file"), exit(1);
+//  }
 //  printf("Created .decomp_bin with size=%d\n", decmpressor_binary_size); //debug
   fwrite(p1, decmpressor_binary_size, 1, fo);
   fclose(fo);
 
 // produce dictionary and decompress it
   fo = fopen(".dict.comp", "wb");
-  if (fo == NULL) {
-    printf("can't open .dict.comp file"), exit(1);
-  }
+//  if (fo == NULL) {
+//    printf("can't open .dict.comp file"), exit(1);
+//  }
   fwrite(p1 + decmpressor_binary_size, header.dict_size, 1, fo);
   fclose(fo);
-  std::cout << "Decompressing dictionary..." << std::endl;
+//  std::cout << "Decompressing dictionary..." << std::endl;
   system("./cmix -d .dict.comp .dict");
 
 // produce article order and decompress it
   fo = fopen(".new_article_order.comp", "wb");
-  if (fo == NULL) {
-    printf("can't open .new_article_order.comp file"), exit(1);
-  }
+//  if (fo == NULL) {
+//    printf("can't open .new_article_order.comp file"), exit(1);
+//  }
   fwrite(p1 + decmpressor_binary_size + header.dict_size, header.new_article_order_size, 1, fo);
   fclose(fo);
-  std::cout << "Decompressing the file with the new article order..." << std::endl;
+//  std::cout << "Decompressing the file with the new article order..." << std::endl;
   system("./cmix -d .new_article_order.comp .new_article_order");
 
   free(p1);
@@ -110,9 +110,9 @@ int selfextract_decomp() {
   HeaderInfo header;
   FILE *f = NULL, *fo = NULL;
   f = fopen("archive9", "rb");
-  if (f == NULL) {
-    printf("can't open archive9 file (itself)"), exit(1);
-  }
+//  if (f == NULL) {
+//    printf("can't open archive9 file (itself)"), exit(1);
+//  }
 
   fseek(f, 0, SEEK_END);
   size_t fsize = ftell(f);
@@ -124,33 +124,33 @@ int selfextract_decomp() {
 
   // read header info
   fo = fopen("test.dat", "wb");
-  if (fo == NULL) {
-    printf("can't open test.dat file"), exit(1);
-  }
+//  if (fo == NULL) {
+//    printf("can't open test.dat file"), exit(1);
+//  }
   fwrite(p1 + fsize - sizeof(HeaderInfo), sizeof(HeaderInfo), 1, fo);
   fclose(fo);
   read("test.dat", header);
-  std::cout << "Successfully read header file (test.dat) with dict_size=" << header.dict_size 
-            << " new_article_order_size=" << header.new_article_order_size 
-            << " decomp_input_size=" << header.decomp_input_size 
-            << std::endl;
+//  std::cout << "Successfully read header file (test.dat) with dict_size=" << header.dict_size 
+//            << " new_article_order_size=" << header.new_article_order_size 
+//            << " decomp_input_size=" << header.decomp_input_size 
+//            << std::endl;
 
 
   size_t decmpressor_binary_size = fsize - header.dict_size - header.decomp_input_size - sizeof(HeaderInfo);
 
   fo = fopen(".dict.comp_decomp", "wb");
-  if (fo == NULL) {
-    printf("can't open .dict.comp_decomp file"), exit(1);
-  }
+//  if (fo == NULL) {
+//    printf("can't open .dict.comp_decomp file"), exit(1);
+//  }
   fwrite(p1 + decmpressor_binary_size, header.dict_size, 1, fo);
   fclose(fo);
-  std::cout << "Decompressing dictionary..." << std::endl;
+//  std::cout << "Decompressing dictionary..." << std::endl;
   system("./cmix -d .dict.comp_decomp .dict_decomp");
 
   fo = fopen(".ready4cmix_decomp", "wb");
-  if (fo == NULL) {
-    printf("can't open .ready4cmix_decomp file"), exit(1);
-  }
+//  if (fo == NULL) {
+//    printf("can't open .ready4cmix_decomp file"), exit(1);
+//  }
   fwrite(p1 + decmpressor_binary_size + header.dict_size, header.decomp_input_size, 1, fo);
   fclose(fo);
 

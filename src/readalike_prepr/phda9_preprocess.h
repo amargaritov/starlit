@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <string>
 #include <fstream>
-#include <iostream>
+//#include <iostream>
 
 
 #define P3_INPUT_SIZE 999988944

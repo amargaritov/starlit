@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <cstdlib>
 
-#include <iostream>
+//#include <iostream>
 
 Predictor::Predictor(const std::vector<bool>& vocab) : manager_(),
     sigmoid_(100001), vocab_(vocab) {
@@ -186,7 +186,7 @@ void Predictor::AddMixers() {
   for (unsigned int i = 0; i < vocab_.size(); ++i) {
     if (vocab_[i]) ++vocab_size;
   }
-  std::cout << "Vocab size" << vocab_size << std::endl;
+//  std::cout << "Vocab size" << vocab_size << std::endl;
   AddByteMixer(new ByteMixer(byte_models_.size(), manager_.bit_context_, vocab_,
       vocab_size, new Lstm(vocab_size, vocab_size, 180, 1, 128, 0.03, 10)));
   AddAuxiliary();

@@ -6,7 +6,7 @@
 #include <vector>
 #include <algorithm>
 
-#include <iostream>
+//#include <iostream>
 
 
 struct Accumulator {
@@ -137,7 +137,7 @@ int sort() {
 
   std::ifstream file(".main_decomp_restored"); 
   if (!file) {
-    std::cout << "unable to open file";
+//    std::cout << "unable to open file";
     return -1;
   }
 
@@ -181,7 +181,7 @@ int sort() {
 
   std::ofstream out(".main_decomp_restored_sorted");
   if (!out) {
-    std::cout << "unable to open file";
+//    std::cout << "unable to open file";
     return -1;
   }
   for(int i =0; i < vec.size(); i++) {
