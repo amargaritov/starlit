@@ -1,3 +1,11 @@
+# Cmix-Readalike_sort Hutter Prize Submission (2021)
+
+This repository includes materials for a Hutter Prize Submission (submission-2021a). It includes 
+* the source code of a cmix.v18-based compressor for enwik9,
+* a set of scripts for building and constructing the compressor,
+* a prebuilt binary of compressor for an AMD's Zen 2 processor.  
+
+
 cmix version 18
 Released by Byron Knoll on August 1, 2019.
 http://www.byronknoll.com/cmix.html
