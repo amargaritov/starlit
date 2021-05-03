@@ -8,6 +8,8 @@
 #include <string>
 #include <fstream>
 
+#include <iostream>
+
 struct HeaderInfo {
   int dict_size;
   int new_article_order_size;
@@ -81,6 +83,7 @@ int selfextract_comp() {
   }
   fwrite(p1 + decmpressor_binary_size, header.dict_size, 1, fo);
   fclose(fo);
+  std::cout << "Decompressing dictionary..." << std::endl;
   system("./cmix -d .dict.comp .dict");
 
 // produce article order and decompress it
@@ -90,6 +93,7 @@ int selfextract_comp() {
   }
   fwrite(p1 + decmpressor_binary_size + header.dict_size, header.new_article_order_size, 1, fo);
   fclose(fo);
+  std::cout << "Decompressing the file with the new article order..." << std::endl;
   system("./cmix -d .new_article_order.comp .new_article_order");
 
   free(p1);
@@ -140,6 +144,8 @@ int selfextract_decomp() {
   }
   fwrite(p1 + decmpressor_binary_size, header.dict_size, 1, fo);
   fclose(fo);
+  std::cout << "Decompressing dictionary..." << std::endl;
+  system("./cmix -d .dict.comp_decomp .dict_decomp");
 
   fo = fopen(".ready4cmix_decomp", "wb");
   if (fo == NULL) {
