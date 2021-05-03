@@ -6,9 +6,6 @@ if [ -z "$BINARY" ]; then
 	exit 1
 fi
 
-SEED="9489"
-UPDATE_LIMIT="3000"
-
 # this is a directory where the compressor binary will be placed 
 DIR=run
 mkdir -p ./$DIR

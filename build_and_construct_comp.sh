@@ -3,7 +3,7 @@
 #SEED="$1"
 #UPDATE_LIMIT="$2"
 
-SEED="9489"
+SEED="17867"
 UPDATE_LIMIT="3000"
 
 rm -rf pgo_data 
