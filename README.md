@@ -6,14 +6,14 @@ This repository includes materials for a Hutter Prize Submission (submission-202
 * the source code of a cmix-based compressor for enwik9 amended to meet the Hutter Prize restrictions on running time and usage of RAM
 * the source code of phda9-2017 enwik8 preprocessor amended to work with enwik9
 * a set of scripts for building and constructing the compressor
-* a prebuilt executable file of STARLIT compressor for an AMD's Zen 2 processor
+* a pre-built executable file of STARLIT compressor for an AMD's Zen 2 processor
 
 The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs a binary -- a self-extracting archive (executable) that restores enwik9.
 
 The compressor was tested on Ubuntu 18 and x86 CPU. 
 
 # Submission description
-STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. Further in this document STARLIT means a compressor/decopressor that features STARLIT preprocessing algorithm, phda9 preprocessing algorithm, and cmix compressor.  
+STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. Further in this document STARLIT means a compressor/decompressor that features 1) STARLIT preprocessing algorithm, 2) phda9 preprocessing algorithm, and 3) cmix compressor.  
 
 Below is the current STARLIT compression result (Linux, x86 processor):
 STARLIT compressor binary size (S1): 405924 bytes
@@ -60,16 +60,19 @@ Constructing STARLIT compressor requires clang-12, upx-ucl and make packages. On
 We provide a bash script for constructing STARLIT compressor on Ubuntu 18. It places the copmressor binary named `cmix` in `./run` directory. The script can be found under
 `./build_and_construct_comp.sh`
 
+
 # Instructions for running STARLIT compressor
 To run the compressor use
 ```bash
 cd ./run
 cmix -e <PATH_TO_ENWIK9> enwik9.comp
 ```
-NOTE: the current version of compressor can only work when named cmix and launched from the directory containing the binary
+NOTE: the current version of STARLIT compressor can only work when the compressor executable file is named `cmix` and when it is launched from the directory containing the executable file.
+
+# Acknowelegments
+The author thank Byron Knoll for making the source code of cmix compressor publicly available, and Alexander Rhatushnyak for sharing the source code of the phda9 enwik8 preprocessing stage. 
 
 
-# Running instructions
 
 # Below is the original README from [the original cmix repo](https://github.com/byronknoll/cmix)
 cmix version 18
