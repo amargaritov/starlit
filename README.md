@@ -1,5 +1,5 @@
-# Hutter Prize Submission 2021a: Preprocessing by read-alike enwiki article sorting + cmix
-Released by Artemiy Margaritov on May 8, 2021.
+# Hutter Prize Submission 2021a: Preprocessing STARLIT + cmix
+Released by Artemiy Margaritov on May 8, 2021.by read-alike enwiki article sorting
 
 This repository includes materials for a Hutter Prize Submission (submission-2021a). It contains:
 * the source code of a new preprocessing algorithm that is tailored for enwik9 compression -- the _SorTing ARticLes by sImilariTy_ (STARLIT),
