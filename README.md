@@ -16,19 +16,22 @@ The compressor was tested on Ubuntu 18 and x86 CPU.
 STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. Further in this document STARLIT means a compressor/decompressor that features 1) STARLIT preprocessing algorithm, 2) phda9 preprocessing algorithm, and 3) cmix compressor.  
 
 Below is the current STARLIT compression result (Linux, x86 processor):
-| Syntax | Description |
+| Metric | Value |
 | --- | ----------- |
 | STARLIT compressor binary size (S1)| 405924 bytes |
 | STARLIT Self-extracting archive size (S2)| 115095976 bytes |
-Total size (S): 115501900 bytes
-The previous record (L): 116673681 bytes
-Previous record relaxation (by May 8 2021): 127 days * 5000 bytes = 635000 bytes
-The previous record (L with relaxation): 117308681
-STARLIT Improvement: 1.54%
-Operating system: Ubuntu 18
-Processor: Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz ([Geekbenck score 640](https://browser.geekbench.com/processors/intel-xeon-silver-4114)
-Running time: 76 hours
-RAM usage: 9910MB
+| Total size (S) | 115501900 bytes |
+| Previous record (L) | 116673681 bytes |
+| Previous record relaxation (by May 8 2021)| 127 days * 5000 bytes = 635000 bytes |
+| previous record (L with relaxation) 117308681 |
+| STARLIT Improvement | 1.54% |
+
+| Platform used for evaluation |  |
+| --- | ----------- |
+| Operating system | Ubuntu 18 |
+| Processor | Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz ([Geekbenck score 640](https://browser.geekbench.com/processors/intel-xeon-silver-4114)
+| Running time | 76 hours |
+| RAM usage | 9910MB |
 
 # STARLIT algorithm description
 STARLIT algorithm is changing the order of articles in the initial enwik9. This algorithm is based on two insights. Firstly, enwik9 is a collection of articles whose titles are sorted by alphabet. As a result, if articles are reordered as part of a compressor, the initial order can be easily restored by a conventional sorting algorithm that won't increase the size of the decompressor much. Secondly, state-of-the-art compressors (phda9, cmix, etc) are based on accumulating context information in a memory buffer that is limited in size. The accumulated context information is used for predicting the next symbol/bit. As a result, it can be beneficial to place similar articles nearby so context information that they share is reused as much as possible before eviction from the buffer.
