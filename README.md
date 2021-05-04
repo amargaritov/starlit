@@ -23,10 +23,10 @@ Below is the current STARLIT compression result (Linux, x86 processor):
 | Total size (S) | 115501900 bytes |
 | Previous record (L) | 116673681 bytes |
 | Previous record relaxation (by May 8 2021)| 127 days * 5000 bytes = 635000 bytes |
-| previous record (L with relaxation) 117308681 |
+| Previous record (L with relaxation) 117308681 |
 | STARLIT Improvement | 1.54% |
 
-| Platform used for evaluation |  |
+| Experiment platform |  |
 | --- | ----------- |
 | Operating system | Ubuntu 18 |
 | Processor | Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz ([Geekbenck score 640](https://browser.geekbench.com/processors/intel-xeon-silver-4114))
