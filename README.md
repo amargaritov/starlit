@@ -1,14 +1,14 @@
 # Hutter Prize Submission 2021a: Preprocessing STARLIT + cmix
-Released by Artemiy Margaritov on May 8, 2021.by read-alike enwiki article sorting
+Released by Artemiy Margaritov on May 8, 2021.
 
 This repository includes materials for a Hutter Prize Submission (submission-2021a). It contains:
-* the source code of a new preprocessing algorithm that is tailored for enwik9 compression -- the _SorTing ARticLes by sImilariTy_ (STARLIT),
-* the source code of a cmix-based compressor for enwik9 amended to meet the Hutter Prize restrictions on running time and usage of RAM,
-* the source code of phda9-2017 enwik8 preprocessor amended to work with enwik9,
-* a set of scripts for building and constructing the compressor,
-* a prebuilt binary of compressor for an AMD's Zen 2 processor.
-* 
-The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs a binary -- a selfextracting archive that restores enwik9.   
+* the source code of a new preprocessing algorithm that is tailored for enwik9 compression -- the _SorTing ARticLes by sImilariTy_ (STARLIT)
+* the source code of a cmix-based compressor for enwik9 amended to meet the Hutter Prize restrictions on running time and usage of RAM
+* the source code of phda9-2017 enwik8 preprocessor amended to work with enwik9
+* a set of scripts for building and constructing the compressor
+* a prebuilt executable file of STARLIT compressor for an AMD's Zen 2 processor
+
+The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs a binary -- a self-extracting archive (executable) that restores enwik9.   
 
 # Submission description
 STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. Further in this document STARLIT means a compressor/decopressor that features STARLIT preprocessing algorithm, phda9 preprocessing algorithm, and cmix compressor.  
@@ -18,10 +18,24 @@ STARLIT compressor binary size (S1): 405924 bytes
 STARLIT Self-extracting archive size (S2): 115095976 bytes
 Total size (S): 115501900 bytes
 Previous record (L): 116673681 bytes
-STARLIT Improvement: 1.00%
 Previous record relaxation (by May 8 2021): 127 days * 5000 bytes = 635000 bytes
 Previous record (L with relaxation): 117308681
-STARLIT Improvement with relaxation: 1.54%
+STARLIT Improvement: 1.54%
+
+# STARLIT algorithm description
+STARLIT algorithm is changing the order of articles in the initial enwik9. This algorithm is based on two insights. Firstly, enwik9 is a collection of articles whose titles are sorted by alphabet. As a result, if articles are reordered as part of a compressor, the initial order can be easily restored by a conventional sorting algorithm that won't increase the size of the decompressor much. Secondly, state-of-the-art compressors (phda9, cmix, etc) are based on accumulating context information in a memory buffer that is limited in size. The accumulated context information is used for prediction next symbol/bit. As a result, it can be beneficial to place similar articles nearby so context information that they share is reused as much as possible before eviction from the buffer.
+
+STARLIT requires finding a new order of articles that minimizes the size of an archive outputted by an existing compressor (we are using cmix). Moreover, the part of RPA that searches for a new order of articles is not limited in complexity (code size) as it is not required to include it into the compressor: only the new order of articles should be included. Based on this observation, I implemented the RPA new-order-searching phase in pyspark. During that phase, firstly, each article is mapped to a feature vector using a Doc2Model. Secondly, considering each feature vector a point in a Euclidean space, the Traveling Salesman Problem is solved resulting in the shortest path visiting each point. In other words, the shortest path represents the order of all articles where similar articles are placed nearby. 
+
+# cmix changes for Hutter Prize submission
+* disabling PAQ8 model
+* disabling all layer1 mixers
+* reducing the memory budget of PPMD models to 850MB 
+* reducing the number of neurons in the LSTM mixer to 1 layer with 180 neurons
+* limiting decay of learning rate of the LSTM mixer (learning rate is kept constant after input symbols are processed)
+* replacing doubles with floats in few places 
+* compiling with profiled gueded optimisations
+
 
 
 
