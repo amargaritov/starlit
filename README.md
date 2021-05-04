@@ -41,7 +41,7 @@ STARLIT algorithm is changing the order of articles in the initial enwik9. This 
 
 STARLIT requires finding a new order of articles that minimizes the size of an archive outputted by an existing compressor (we are using cmix). Moreover, the part of STARLIT that searches for a new order of articles is not limited in complexity (code size) as it is not required to include it into the compressor: only the new order of articles should be included. Based on this observation, I implemented the STARLIT new-order-searching phase in pyspark. During that phase, firstly, each article is mapped to a feature vector using a Doc2Vec model. Secondly, considering each article feature vector to be a point in a Euclidean space, the Traveling Salesman Problem is solved resulting in the shortest path visiting each point. The shortest path represents the order of all articles where similar articles are placed nearby. 
 
-The submission includes the new order under `./src/readalike_prepr/data/new_article_order`. The nth row of this file shows the index of an article in the original enwik9 file that should be placed as the nth article in the STARLIT-preprocessed file. 
+The submission includes the new order under `./src/readalike_prepr/data/new_article_order`. The nth row of this file shows the index of an article in the original enwik9 file that STARLIT places as the nth article in its output. 
 
 # Changes in cmix
 * disabling PAQ8 model
