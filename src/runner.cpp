@@ -42,6 +42,8 @@ int Help() {
   return -1;
 }
 
+void debugAllPrepare(std::string, std::string);
+
 void WriteHeader(unsigned long long length, const std::vector<bool>& vocab,
     bool dictionary_used, std::ofstream* os) {
   for (int i = 4; i >= 0; --i) {
@@ -365,6 +367,10 @@ int main(int argc, char** argv) {
     input_path = argv[2];
     output_path = argv[3]; //name of a compressor output
 
+    // DEBUG
+//    debugAllPrepare(input_path, output_path);// debug
+//    return 0;
+    //DEBUG END
 
 //    std::cout << "Uncompressing the dictionary and the file with the new order of articles" << std::endl;
     // unpack a) cmix dictionary, b) new order of articles, c) actual cmix binary
@@ -424,8 +430,6 @@ int main(int argc, char** argv) {
     int i = strtol(mode, 0, 8);
     chmod(buf, i);
 
-    // debugAllPrepare();// debug
-    // goto print_end_message;
   } else if (argv[1][1] == 'h') {
 //    std::cout << argc << " " << sizeof(HeaderInfo) << std::endl << std::flush;
     if (argc < 5) return Help();
@@ -462,7 +466,7 @@ exit:
   return 0;
 }
 
-void debugAllPrepapre(std::string input_path, std::string output_path) {
+void debugAllPrepare(std::string input_path, std::string output_path) {
     // Compress enwik9
     // unpack a) cmix dictionary, b) new order of articles, c) actual cmix binary
     selfextract_comp();
