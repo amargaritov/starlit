@@ -1,11 +1,31 @@
-# Cmix-Readalike_sort Hutter Prize Submission (2021)
+# Hutter Prize Submission 2021a: Preprocessing by read-alike enwiki article sorting + cmix
+Released by Artemiy Margaritov on May 8, 2021.
 
-This repository includes materials for a Hutter Prize Submission (submission-2021a). It includes 
-* the source code of a cmix.v18-based compressor for enwik9,
+This repository includes materials for a Hutter Prize Submission (submission-2021a). It contains:
+* the source code of a new preprocessing algorithm that is tailored for enwik9 compression -- the _SorTing ARticLes by sImilariTy_ (STARLIT),
+* the source code of a cmix-based compressor for enwik9 amended to meet the Hutter Prize restrictions on running time and usage of RAM,
+* the source code of phda9-2017 enwik8 preprocessor amended to work with enwik9,
 * a set of scripts for building and constructing the compressor,
-* a prebuilt binary of compressor for an AMD's Zen 2 processor.  
+* a prebuilt binary of compressor for an AMD's Zen 2 processor.
+* 
+The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs a binary -- a selfextracting archive that restores enwik9.   
+
+# Submission description
+STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. Further in this document STARLIT means a compressor/decopressor that features STARLIT preprocessing algorithm, phda9 preprocessing algorithm, and cmix compressor.  
+
+Below is the current STARLIT compression result:
+STARLIT compressor binary size (S1): 405924 bytes
+STARLIT Self-extracting archive size (S2): 115095976 bytes
+Total size (S): 115501900 bytes
+Previous record (L): 116673681 bytes
+STARLIT Improvement: 1.00%
+Previous record relaxation (by May 8 2021): 127 days * 5000 bytes = 635000 bytes
+Previous record (L with relaxation): 117308681
+STARLIT Improvement with relaxation: 1.54%
 
 
+
+# Below is the original README from [the original cmix repo](https://github.com/byronknoll/cmix)
 cmix version 18
 Released by Byron Knoll on August 1, 2019.
 http://www.byronknoll.com/cmix.html
