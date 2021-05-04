@@ -35,7 +35,7 @@ STARLIT requires finding a new order of articles that minimizes the size of an a
 
 The submission includes the new order under `./src/readalike_prepr/data/new_article_order`. The nth row of this file shows the index of an article in the original enwik9 file that should be placed as the nth article in the STARLIT-preprocessed file. 
 
-# cmix changes for Hutter Prize submission
+# Changes in cmix
 * disabling PAQ8 model
 * disabling all layer1 mixers
 * reducing the memory budget of PPMD models to 850MB 
@@ -67,7 +67,6 @@ cd ./run
 cmix -e <PATH_TO_ENWIK9> enwik9.comp
 ```
 NOTE: the current version of compressor can only work when named cmix and launched from the directory containing the binary
-
 
 
 # Running instructions
