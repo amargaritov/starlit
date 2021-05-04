@@ -45,12 +45,12 @@ The submission includes the new order under `./src/readalike_prepr/data/new_arti
 * compiling with profiled gueded optimisations
 * embedding a compressed english dictionary and a file with new article order as part of the compressor binary
 
-# Building/constructing instructions
-Constructing STARLIT compressor includes following steps 
-* building cmix + STARLIT with profile guided optimisations
-* compressing compressor binary with UPX
-* compressing the english dictionary with the resulting compressor
-* compressing the file with new order of articles with the resulting compressor
+# Instructions for building STARLIT compressor
+Creating STARLIT compressor binary includes the following steps:
+* building cmix + STARLIT by clang with profile guided optimisations
+* compressing the resulting compressor binary with UPX
+* compressing the english dictionary by the compressor
+* compressing the file with the enew order of articles by the compressor
 * merging the compressor binary with the compressed versions of the english dictionary and the new order file 
 
 Constructing STARLIT compressor requires clang-12, upx-ucl and make packages. On Ubuntu 18, these packages can be installed by running the following scripts:
@@ -59,6 +59,14 @@ Constructing STARLIT compressor requires clang-12, upx-ucl and make packages. On
 
 We provide a bash script for constructing STARLIT compressor on Ubuntu 18. It places the copmressor binary named `cmix` in `./run` directory. The script can be found under
 `./build_and_construct_comp.sh`
+
+# Instructions for running STARLIT compressor
+To run the compressor use
+```bash
+cd ./run
+cmix -e <PATH_TO_ENWIK9> enwik9.comp
+```
+NOTE: the current version of compressor can only work when named cmix and launched from the directory containing the binary
 
 
 
