@@ -29,9 +29,9 @@ Below is the current STARLIT compression result (Linux, x86 processor):
 | Platform used for evaluation |  |
 | --- | ----------- |
 | Operating system | Ubuntu 18 |
-| Processor | Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz ([Geekbenck score 640](https://browser.geekbench.com/processors/intel-xeon-silver-4114)
+| Processor | Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz ([Geekbenck score 640](https://browser.geekbench.com/processors/intel-xeon-silver-4114))
 | Running time | 76 hours |
-| RAM usage | 9910MB |
+| RAM max usage | 9910MB |
 
 # STARLIT algorithm description
 STARLIT algorithm is changing the order of articles in the initial enwik9. This algorithm is based on two insights. Firstly, enwik9 is a collection of articles whose titles are sorted by alphabet. As a result, if articles are reordered as part of a compressor, the initial order can be easily restored by a conventional sorting algorithm that won't increase the size of the decompressor much. Secondly, state-of-the-art compressors (phda9, cmix, etc) are based on accumulating context information in a memory buffer that is limited in size. The accumulated context information is used for predicting the next symbol/bit. As a result, it can be beneficial to place similar articles nearby so context information that they share is reused as much as possible before eviction from the buffer.
