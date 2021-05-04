@@ -18,13 +18,13 @@ STARLIT beats the current Hutter Prize result when combined with the cmix compre
 Below is the current STARLIT compression result (Linux, x86 processor):
 | Metric | Value |
 | --- | ----------- |
-| STARLIT compressor binary size (S1)| 405924 bytes |
-| STARLIT Self-extracting archive size (S2)| 115095976 bytes |
-| Total size (S) | 115501900 bytes |
-| Previous record (L) | 116673681 bytes |
+| STARLIT compressor binary size (S1)| 403308 bytes |
+| STARLIT Self-extracting archive size (S2)| 115093300 bytes |
+| Total size (S) | 115496608 bytes |
+| Previous record | 116673681 bytes |
 | Previous record relaxation (by May 8 2021)| 127 days * 5000 bytes = 635000 bytes |
-| Previous record (L with relaxation) | 117308681 bytes |
-| STARLIT Improvement | 1.54% |
+| Previous record (L) | 117308681 bytes |
+| STARLIT Improvement (1 - S/L) | 1.544% |
 
 | Experiment platform |  |
 | --- | ----------- |
