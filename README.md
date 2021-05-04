@@ -49,7 +49,7 @@ The submission includes the new order under `./src/readalike_prepr/data/new_arti
 * reducing the memory budget of PPMD models to 850MB 
 * reducing the number of neurons in the LSTM mixer to 1 layer with 180 neurons
 * limiting decay of learning rate of the LSTM mixer (learning rate is kept constant after input symbols are processed)
-* replacing doubles with floats in few places 
+* replacing doubles with floats in several places 
 * compiling with profiled guided optimizations
 * embedding a compressed English dictionary and a file with new article order as part of the compressor binary
 
