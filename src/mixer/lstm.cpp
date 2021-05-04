@@ -3,7 +3,7 @@
 #include <numeric>
 #include <stdlib.h>
 #include <fstream>
-#include <iostream>
+//#include <iostream>
 
 Lstm::Lstm(unsigned int input_size, unsigned int output_size, unsigned int
     num_cells, unsigned int num_layers, int horizon, float learning_rate,

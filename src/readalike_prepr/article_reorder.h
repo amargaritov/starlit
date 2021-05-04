@@ -4,9 +4,10 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <utility>
+//#include <algorithm>
 
-#include <iostream>
+//#include <iostream>
 
 
 struct Accumulator {
@@ -57,9 +58,28 @@ void save_pageend(int res, Accumulator* acc) {
   acc->end = res;
 }
 
-bool sortById(Accumulator &A, Accumulator &B) //function to sort fruits by names
+//bool sortById(Accumulator &A, Accumulator &B) 
+//{
+//  return (A.id < B.id);
+//}
+
+void bubblesort(std::vector<Accumulator>& mylist)
 {
-  return (A.id < B.id);
+	for (int i = 1; i < mylist.size(); i++)
+	{
+
+	    for (int j = 0; j < mylist.size() - i; j++) 
+	    {
+		if (mylist[j].id > mylist[j + 1].id) 
+		{
+			std::swap(mylist[j], mylist[j + 1]);
+//		    Accumulator temp;
+//		    temp = mylist[j];
+//		    mylist[j] = mylist[j + 1];
+//		    mylist[j + 1] = temp;
+		}
+	    }
+	}
 }
 
 int reorder() {
@@ -137,7 +157,7 @@ int sort() {
 
   std::ifstream file(".main_decomp_restored"); 
   if (!file) {
-    std::cout << "unable to open file";
+//    std::cout << "unable to open file";
     return -1;
   }
 
@@ -172,7 +192,9 @@ int sort() {
 
 //  std::cout << line_count  << std::endl;
 
-  std::sort(vec.begin(), vec.end(), sortById);
+//  std::sort(vec.begin(), vec.end(), sortById);
+
+  bubblesort(vec);
 
 //  for(std::vector<Accumulator>::const_iterator it = vec.begin();
 //    it != vec.end(); ++it) {
@@ -181,7 +203,7 @@ int sort() {
 
   std::ofstream out(".main_decomp_restored_sorted");
   if (!out) {
-    std::cout << "unable to open file";
+//    std::cout << "unable to open file";
     return -1;
   }
   for(int i =0; i < vec.size(); i++) {
