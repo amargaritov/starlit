@@ -16,8 +16,8 @@ The compressor was tested on Ubuntu 18 and x86 CPU.
 STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. Further in this document STARLIT means a compressor/decompressor that features 1) STARLIT preprocessing algorithm, 2) phda9 preprocessing algorithm, and 3) cmix compressor.  
 
 Below is the current STARLIT compression result (Linux, x86 processor):
-STARLIT compressor binary size (S1): 405924 bytes
-STARLIT Self-extracting archive size (S2): 115095976 bytes
+| STARLIT compressor binary size (S1)| 405924 bytes |
+| STARLIT Self-extracting archive size (S2)| 115095976 bytes |
 Total size (S): 115501900 bytes
 The previous record (L): 116673681 bytes
 Previous record relaxation (by May 8 2021): 127 days * 5000 bytes = 635000 bytes
