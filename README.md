@@ -8,12 +8,14 @@ This repository includes materials for a Hutter Prize Submission (submission-202
 * a set of scripts for building and constructing the compressor
 * a prebuilt executable file of STARLIT compressor for an AMD's Zen 2 processor
 
-The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs a binary -- a self-extracting archive (executable) that restores enwik9.   
+The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs a binary -- a self-extracting archive (executable) that restores enwik9.
+
+The compressor was tested on Ubuntu 18 and x86 CPU. 
 
 # Submission description
 STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. Further in this document STARLIT means a compressor/decopressor that features STARLIT preprocessing algorithm, phda9 preprocessing algorithm, and cmix compressor.  
 
-Below is the current STARLIT compression result:
+Below is the current STARLIT compression result (Linux, x86 processor):
 STARLIT compressor binary size (S1): 405924 bytes
 STARLIT Self-extracting archive size (S2): 115095976 bytes
 Total size (S): 115501900 bytes
@@ -21,11 +23,17 @@ Previous record (L): 116673681 bytes
 Previous record relaxation (by May 8 2021): 127 days * 5000 bytes = 635000 bytes
 Previous record (L with relaxation): 117308681
 STARLIT Improvement: 1.54%
+Operating system: Ubuntu 18
+Processor: Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz ([Geekbenck score 640](https://browser.geekbench.com/processors/intel-xeon-silver-4114)
+Running time: 76 hours
+RAM usage: 9910MB
 
 # STARLIT algorithm description
 STARLIT algorithm is changing the order of articles in the initial enwik9. This algorithm is based on two insights. Firstly, enwik9 is a collection of articles whose titles are sorted by alphabet. As a result, if articles are reordered as part of a compressor, the initial order can be easily restored by a conventional sorting algorithm that won't increase the size of the decompressor much. Secondly, state-of-the-art compressors (phda9, cmix, etc) are based on accumulating context information in a memory buffer that is limited in size. The accumulated context information is used for prediction next symbol/bit. As a result, it can be beneficial to place similar articles nearby so context information that they share is reused as much as possible before eviction from the buffer.
 
-STARLIT requires finding a new order of articles that minimizes the size of an archive outputted by an existing compressor (we are using cmix). Moreover, the part of RPA that searches for a new order of articles is not limited in complexity (code size) as it is not required to include it into the compressor: only the new order of articles should be included. Based on this observation, I implemented the RPA new-order-searching phase in pyspark. During that phase, firstly, each article is mapped to a feature vector using a Doc2Model. Secondly, considering each feature vector a point in a Euclidean space, the Traveling Salesman Problem is solved resulting in the shortest path visiting each point. In other words, the shortest path represents the order of all articles where similar articles are placed nearby. 
+STARLIT requires finding a new order of articles that minimizes the size of an archive outputted by an existing compressor (we are using cmix). Moreover, the part of RPA that searches for a new order of articles is not limited in complexity (code size) as it is not required to include it into the compressor: only the new order of articles should be included. Based on this observation, I implemented the STARLIT new-order-searching phase in pyspark. During that phase, firstly, each article is mapped to a feature vector using a Doc2Vec model. Secondly, considering each article feature vector to be a point in a Euclidean space, the Traveling Salesman Problem is solved resulting in the shortest path visiting each point. In other words, the shortest path represents the order of all articles where similar articles are placed nearby. 
+
+The submission includes the new order under `./src/readalike_prepr/data/new_article_order`. The nth row of this file shows the index of an article in the original enwik9 file that should be placed as the nth article in the STARLIT-preprocessed file. 
 
 # cmix changes for Hutter Prize submission
 * disabling PAQ8 model
@@ -35,9 +43,26 @@ STARLIT requires finding a new order of articles that minimizes the size of an a
 * limiting decay of learning rate of the LSTM mixer (learning rate is kept constant after input symbols are processed)
 * replacing doubles with floats in few places 
 * compiling with profiled gueded optimisations
+* embedding a compressed english dictionary and a file with new article order as part of the compressor binary
+
+# Building/constructing instructions
+Constructing STARLIT compressor includes following steps 
+* building cmix + STARLIT with profile guided optimisations
+* compressing compressor binary with UPX
+* compressing the english dictionary with the resulting compressor
+* compressing the file with new order of articles with the resulting compressor
+* merging the compressor binary with the compressed versions of the english dictionary and the new order file 
+
+Constructing STARLIT compressor requires clang-12, upx-ucl and make packages. On Ubuntu 18, these packages can be installed by running the following scripts:
+`./install_tools/install_upx.sh`
+`./install_tools/install_clang-12.sh`
+
+We provide a bash script for constructing STARLIT compressor on Ubuntu 18. It places the copmressor binary named `cmix` in `./run` directory. The script can be found under
+`./build_and_construct_comp.sh`
 
 
 
+# Running instructions
 
 # Below is the original README from [the original cmix repo](https://github.com/byronknoll/cmix)
 cmix version 18
