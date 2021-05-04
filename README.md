@@ -26,7 +26,7 @@ Below is the current STARLIT compression result (Linux, x86 processor):
 | previous record (L with relaxation) 117308681 |
 | STARLIT Improvement | 1.54% |
 
-| Platform used for evaluation |  
+| Platform used for evaluation |  |
 | --- | ----------- |
 | Operating system | Ubuntu 18 |
 | Processor | Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz ([Geekbenck score 640](https://browser.geekbench.com/processors/intel-xeon-silver-4114)
