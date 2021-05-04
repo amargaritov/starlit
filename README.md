@@ -34,7 +34,7 @@ Below is the current STARLIT compression result (Linux, x86 processor):
 | Decompression RAM max usage | 9910MB |
 | Decompression disk usage | 20GB |
 
-Compressor/decompressor performing similar stages/actions. As a result,compression time is approximately the same as decomression time. The same is true for RAM/disk usage. 
+Compressor/decompressor perform similar stages/actions. As a result, the compression time is approximately the same as the decomression time. Simirly, RAM/disk usage during compression is also approximately the same as during decompression. 
 
 # STARLIT algorithm description
 STARLIT algorithm is changing the order of articles in the initial enwik9. This algorithm is based on two insights. Firstly, enwik9 is a collection of articles whose titles are sorted by alphabet. As a result, if articles are reordered as part of a compressor, the initial order can be easily restored by a conventional sorting algorithm that won't increase the size of the decompressor much. Secondly, state-of-the-art compressors (phda9, cmix, etc) are based on accumulating context information in a memory buffer that is limited in size. The accumulated context information is used for predicting the next symbol/bit. As a result, it can be beneficial to place similar articles nearby so context information that they share is reused as much as possible before eviction from the buffer.
