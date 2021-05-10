@@ -24,7 +24,7 @@ Below is the current STARLIT compression result (Ubuntu 18 (Linux), x86 processo
 | Previous record | 116673681 bytes |
 | Relaxation (as of May 10 2021)| 129 days * 5000 bytes = 645000 bytes |
 | Previous record with relaxation (L) | 117318681 bytes |
-| STARLIT Improvement (1 - S/L) | 1.553% |
+| STARLIT improvement (1 - S/L) | 1.553% |
 
 | Experiment platform |  |
 | --- | ----------- |
