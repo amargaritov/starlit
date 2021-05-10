@@ -19,7 +19,7 @@ Below is the current STARLIT compression result (Ubuntu 18 (Linux), x86 processo
 | Metric | Value |
 | --- | ----------- |
 | STARLIT compressor binary size (S1)| 403308 bytes |
-| STARLIT Self-extracting archive size (S2)| 115093300 bytes |
+| STARLIT self-extracting archive size (S2)| 115093300 bytes |
 | Total size (S) | 115496608 bytes |
 | Previous record | 116673681 bytes |
 | Relaxation (as of May 10 2021)| 129 days * 5000 bytes = 645000 bytes |
