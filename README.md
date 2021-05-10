@@ -66,16 +66,17 @@ STARLIT reordering/sorting functions are implemented in `./src/readalike_prepr/a
 
 # Instructions for compiling STARLIT compressor from sources
 Creating the STARLIT compressor executable file includes the following steps:
-1) building cmix + STARLIT by clang-12 with profile guided optimizations
-2.a) compressing the resulting compressor executable file with the Ultimate Packer for eXecutables (UPX)
-2.b) compressing the cmix English dictionary by the resulting compressor
-2.c) compressing the file with the new order of articles by the resulting compressor
-2.d) merging the compressor executable file with the compressed versions of 1) the cmix English dictionary and 2) the new order file 
+1. building cmix + STARLIT by clang-12 with profile guided optimizations
+2. Construction:
+  * compressing the resulting compressor executable file with the Ultimate Packer for eXecutables (UPX)
+  * compressing the cmix English dictionary by the resulting compressor
+  * compressing the file with the new order of articles by the resulting compressor
+  * merging the compressor executable file with the compressed versions of 1) the cmix English dictionary and 2) the new order file 
 
-We refer to the stage 1 as _building_, and to stage 2 as _constructing_. 
+We refer to the stage 1 as _building_, and to the stage 2 as _constructing_. 
 
 # Installing packages required for compiling STARLIT compressor from sources on Ubuntu 18
-Compiling STARLIT compressor from sources requires clang-12, upx-ucl, and make packages. On Ubuntu 18, these packages can be installed by running the following scripts:
+Building STARLIT compressor from sources requires clang-12, upx-ucl, and make packages. On Ubuntu 18, these packages can be installed by running the following scripts:
 `./install_tools/install_upx.sh`
 `./install_tools/install_clang-12.sh`
 
@@ -103,11 +104,11 @@ _NOTE: the current version of the STARLIT compressor can only work when the STAR
 
 # Expected STARLIT compressor/decompressor output
 When launched as described above, the STARLIT compressor would 
-1) decompress the cmix English dictionary
-2) decompress the new order file 
-3) apply STARLIT article reordering
-4) apply phda9 preprcessing (enwik-specific transforms)
-5) run normal cmix compressing routine
+1. decompress the cmix English dictionary
+2. decompress the new order file 
+3. apply STARLIT algoritm (reorder articles) 
+4. apply HP-2017 preprcessing (enwik-specific transforms)
+5. run normal cmix compressing routine
 
 For stages 1, 2, and 5, the STARLIT compressor would print progress (similarly as the original cmix does it). The stages 3 and 4 are expected to run less than 15 minutes in total. After finishing stages 3 and 4, the stage 5 would print progress. After finishing stages 1 and 2, the output is expected to be 
 ```bash
@@ -122,7 +123,7 @@ cd ./run
 _NOTE: both STARLIT compressor (executalbe `cmix`) and decompressor (exectable `archive9`) require about 20GB of disk space._ 
 
 # Acknowelegments
-The author thanks Byron Knoll for making the source code of the cmix compressor publicly available. The author also thanks Alexander Rhatushnyak for open-sourcing the set of enwik8 specific transforms of phda9 (that is a part of the hutter Prize 2017 submission) the source code of the phda9 enwik8 preprocessing stage. The authors is also grateful to Marcus Hutter and Matt Mahoney for assistance with the submission. 
+The author thanks Byron Knoll for making the source code of the cmix compressor publicly available. The author also thanks Alexander Rhatushnyak for open-sourcing the set of enwik8 specific transforms that are part of the HP-2017 submission. The author is also grateful to Marcus Hutter and Matt Mahoney for assistance with the submission process. 
 
 # Open-source projects used in this submission
 * [This is a link to the original cmix repo](https://github.com/byronknoll/cmix)
