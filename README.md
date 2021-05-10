@@ -37,7 +37,7 @@ Below is the current STARLIT compression result (Ubuntu 18 (Linux), x86 processo
 Compressor and decompressor perform similar stages/actions. As a result, the compression time is approximately the same as the decomression time. Similarly, RAM and disk usages during compression is also approximately the same as one during decompression. 
 
 # STARLIT algorithm description
-STARLIT algorithm is changing the order of articles in the initial enwik9. This algorithm is based on two insights. 
+The STARLIT algorithm is changing the order of articles in the initial enwik9. This algorithm is based on two insights. 
 Firstly, enwik9 is a collection of articles whose titles are sorted by alphabet. As a result, if articles are reordered as part of a compressor, the initial order can be easily restored by a conventional sorting algorithm (e.g. Bubble Sort) that is simple and negligibly increases the size of the decompressor. 
 Secondly, state-of-the-art compressors (cmix, phda9, etc) are based on accumulating context information in a memory buffer that is limited in size. The accumulated context information is used for predicting the next symbol/bit. We hypothesize that it is better to use the accumulated context information as soon as possible. Due to the limited size of the buffer, the longer the accumulated information stays in the buffer the higher the chances that it will be corrupted or removed. As a result, it can be beneficial to place _similar_ articles nearby so context information that they share is reused as much as possible before eviction from the buffer.
 To sum up, the idea behind STARLIT is to reorder enwik articles in a way that similar articles are placed together. Such ordering makes prediction methods employed by cmix more accurate and results in a higher degree of compression.
@@ -45,7 +45,7 @@ To sum up, the idea behind STARLIT is to reorder enwik articles in a way that si
 
 STARLIT requires finding a new order of articles that minimizes the size of an archive outputted by an existing compressor (we are using cmix). Moreover, the part of STARLIT that searches for a new order of articles is not limited in complexity (code size) as it is not required to include it into the compressor: only the new order of articles should be included. Based on this observation, we implemented the STARLIT new-order-searching phase in PySpark. During the searching phase, firstly, each article is mapped to a feature vector using a Doc2Vec model. Secondly, considering each feature vector to be a point in a Euclidean space, the Traveling Salesman Problem is solved resulting in the shortest path visiting each point. As a result, the found shortest path represents the order of all articles where similar articles are placed nearby. 
 
-The submission includes the new article order file under `./src/readalike_prepr/data/new_article_order`. The nth row of this file shows the index of an article in the original enwik9 file that STARLIT algorithm places as the nth article in its output. 
+The submission includes the new article order file under `./src/readalike_prepr/data/new_article_order`. The nth row of this file shows the index of an article in the original enwik9 file that the STARLIT algorithm places as the nth article in its output. 
 
 # Changes to cmix_v18
 * disabling PAQ8 model
@@ -57,8 +57,10 @@ The submission includes the new article order file under `./src/readalike_prepr/
 * compiling with profiled guided optimizations
 * embedding a compressed English dictionary and a file with new article order as part of the compressor binary
 
-# Changes to phda9 enwik8 specific transforms (phda9 preprocessor for the Hutter Prize 2017 submission by Alexander Rhatushnyak). 
-* merginag all preprocessing functions to one header file under 
+# Changes to phda9 enwik8-specific transforms (the phda9 preprocessor for the Hutter Prize 2017 submission released by Alexander Rhatushnyak). 
+* merging all (de)preprocessing functions to one header file under `src/readalike_prepr/phda9_preprocess.h`
+* adding sed functions as part of preprocessing to "protect" some patterns from the wrong transformation
+* increasing the size of buffers used by (de)preprocessing functions 
 
 # Instructions for compiling STARLIT compressor from sources
 Creating the STARLIT compressor executable file includes the following steps:
