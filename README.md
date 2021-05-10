@@ -15,7 +15,7 @@ The compressor/decompressor was tested on Ubuntu 18 and x86 CPU.
 # Submission description
 STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. For brevity, further in this document, we use STARLIT to mean a compressor/decompressor that features 1) STARLIT preprocessing algorithm, 2) HP-2017 preprocessing algorithm, and 3) cmix compression routine.  
 
-Below is the current STARLIT compression result (Ubuntu 18 (Linux), x86 processor):
+Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor):
 | Metric | Value |
 | --- | ----------- |
 | STARLIT compressor's executable file size (S1)| 403308 bytes |
