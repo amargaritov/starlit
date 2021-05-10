@@ -77,11 +77,15 @@ Compiling STARLIT compressor from sources requires clang-12, upx-ucl, and make p
 
 # Instructions for compiling STARLIT compressor from sources
 We provide a bash script for compiling STARLIT compressor from sources on Ubuntu 18. This script places the STARLIT executalbe file named as `cmix` in `./run` directory. The script can be run as
-`./build_and_construct_comp.sh`
+```bash
+./build_and_construct_comp.sh
+```
 
 # Instructions for constructing STARLIT compressor using a prebuilt executable file
 If clang-12, upx-ucl, or make packages are not available, it is possible to construct cmix + STARLIT executable file using a prebuilt cmix version (tested only on Ubuntu 18). We provide a script for constructing STARLIT compressor from a prebuild executable file. This script places the final STARLIT compressor file under `./run`. The script can be run as
-`./construct_from_prebuilt.sh ./prebuild_binary/cmix_amdzen2`
+```bash
+./construct_from_prebuilt.sh ./prebuild_binary/cmix_amdzen2
+```
 
 NOTE: currently, we provide a prebuilt STARLIT executable optimized for an AMD's Zen2 processor. Please contact the author if you need a prebuild executable file optimized for another CPU._
 
