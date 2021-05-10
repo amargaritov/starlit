@@ -18,7 +18,7 @@ STARLIT beats the current Hutter Prize result when combined with the cmix compre
 Below is the current STARLIT compression result (Ubuntu 18 (Linux), x86 processor):
 | Metric | Value |
 | --- | ----------- |
-| STARLIT compressor binary size (S1)| 403308 bytes |
+| STARLIT compressor's executable file size (S1)| 403308 bytes |
 | STARLIT self-extracting archive size (S2)| 115093300 bytes |
 | Total size (S) | 115496608 bytes |
 | Previous record | 116673681 bytes |
@@ -57,7 +57,7 @@ STARLIT reordering/sorting functions are implemented in `./src/readalike_prepr/a
 * limiting decay of learning rate of the LSTM mixer (learning rate is kept constant after input symbols are processed)
 * replacing doubles with floats in several places 
 * compiling with profiled guided optimizations
-* embedding a compressed English dictionary and a file with new article order as part of the compressor binary
+* embedding a compressed English dictionary and a file with new article order as part of the compressor's executable file
 
 # Changes to HP-2017 enwik8-specific transforms 
 * merging all (de)preprocessing functions to one header file under `src/readalike_prepr/phda9_preprocess.h`
