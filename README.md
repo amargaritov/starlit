@@ -123,4 +123,4 @@ The author thanks Byron Knoll for making the source code of the cmix compressor 
 
 # Open-source projects used in this submission
 * [This is a link to the original cmix repo](https://github.com/byronknoll/cmix)
-* [This is a link to the phda9-2017 enwik8 specific transforms](https://encode.su/attachment.php?s=849482f9bef20cb68ebc7aaba0f5ff49&attachmentid=6353&d=1546482845)
+* [This is a link to the code of HP-2017 enwik8 specific transforms](https://encode.su/attachment.php?s=849482f9bef20cb68ebc7aaba0f5ff49&attachmentid=6353&d=1546482845)
