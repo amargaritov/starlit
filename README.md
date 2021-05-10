@@ -91,7 +91,7 @@ If clang-12, upx-ucl, or make packages are not available, it is possible to cons
 ./construct_from_prebuilt.sh ./prebuild_binary/cmix_amdzen2
 ```
 
-NOTE: currently, we provide a prebuilt STARLIT executable optimized for an AMD's Zen 2 processor. Please contact the author if you need a prebuild executable file optimized for another CPU._
+_NOTE: currently, we provide a prebuilt STARLIT executable optimized for an AMD's Zen 2 processor. Please contact the author if you need a prebuild executable file optimized for another CPU._
 
 # Instructions for running STARLIT compressor
 To run the STARLIT compressor use
