@@ -121,6 +121,6 @@ _NOTE: both STARLIT compressor (executalbe `cmix`) and decompressor (exectable `
 # Acknowelegments
 The author thanks Byron Knoll for making the source code of the cmix compressor publicly available. The author also thanks Alexander Rhatushnyak for open-sourcing the set of enwik8 specific transforms of phda9 (that is a part of the hutter Prize 2017 submission) the source code of the phda9 enwik8 preprocessing stage. The authors is also grateful to Marcus Hutter and Matt Mahoney for assistance with the submission. 
 
-# Original sources (cmix and phda9 preprocessing)
+# Open-source projects used in this submission
 * [This is a link to the original cmix repo](https://github.com/byronknoll/cmix)
 * [This is a link to the phda9-2017 enwik8 specific transforms](https://encode.su/attachment.php?s=849482f9bef20cb68ebc7aaba0f5ff49&attachmentid=6353&d=1546482845)
