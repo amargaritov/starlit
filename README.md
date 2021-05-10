@@ -112,8 +112,10 @@ When launched as described above, the STARLIT compressor would
 
 For stages 1, 2, and 5, the STARLIT compressor would print progress (similarly as the original cmix does it). The stages 3 and 4 are expected to run less than 15 minutes in total. After finishing stages 3 and 4, the stage 5 would print progress. After finishing stages 1 and 2, the output is expected to be 
 ```bash
+***
 77992 bytes -> 415377 bytes in 112.10 s.
 210080 bytes -> 1592865 bytes in 383.34 s.
+***
 ```
 After finishing stage 5, the compressor is expected to output an executable file named `archive9` in the same directory (`./run`). The file `archive9` when executed is expected to produce the original enwi9. The file `archive9` should be launched wihtout argments from the directory containing it. 
 ```bash
