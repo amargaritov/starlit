@@ -1,30 +1,30 @@
-# Hutter Prize Submission 2021a: Preprocessing STARLIT + cmix
-Released by Artemiy Margaritov on May 8, 2021.
+# Hutter Prize Submission 2021a: Preprocessing by STARLIT & cmix
+Released by Artemiy Margaritov on May 10, 2021.
 
 This repository includes materials for a Hutter Prize Submission (submission-2021a). It contains:
 * the source code of a new preprocessing algorithm that is tailored for enwik9 compression -- the _SorTing ARticLes by sImilariTy_ (STARLIT)
 * the source code of a cmix-based compressor for enwik9 amended to meet the Hutter Prize restrictions on running time and usage of RAM
-* the source code of phda9-2017 enwik8 preprocessor amended to work with enwik9
-* a set of scripts for building and constructing the compressor
+* the source code of phda9-2017 enwik8-specific preprocessor amended to work with enwik9
+* a set of scripts for building and constructing the compressor combining the components mentioned above on Ubuntu 18
 * a pre-built executable file of STARLIT compressor for an AMD's Zen 2 processor
 
-The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs a binary -- a self-extracting archive (executable) that restores enwik9.
+The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs an executable file -- a self-extracting archive (executable) that restores enwik9. 
 
-The compressor was tested on Ubuntu 18 and x86 CPU. 
+The compressor/decompressor was tested on Ubuntu 18 and x86 CPU. 
 
 # Submission description
-STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. Further in this document STARLIT means a compressor/decompressor that features 1) STARLIT preprocessing algorithm, 2) phda9 preprocessing algorithm, and 3) cmix compressor.  
+STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. For brevity, further in this document, we use STARLIT to mean a compressor/decompressor that features 1) STARLIT preprocessing algorithm, 2) phda9 preprocessing algorithm, and 3) cmix compression routine.  
 
-Below is the current STARLIT compression result (Linux, x86 processor):
+Below is the current STARLIT compression result (Ubuntu 18 (Linux), x86 processor):
 | Metric | Value |
 | --- | ----------- |
 | STARLIT compressor binary size (S1)| 403308 bytes |
 | STARLIT Self-extracting archive size (S2)| 115093300 bytes |
 | Total size (S) | 115496608 bytes |
 | Previous record | 116673681 bytes |
-| Relaxation (as of on May 8 2021)| 127 days * 5000 bytes = 635000 bytes |
-| Previous record with relaxation (L) | 117308681 bytes |
-| STARLIT Improvement (1 - S/L) | 1.544% |
+| Relaxation (as of May 10 2021)| 129 days * 5000 bytes = 645000 bytes |
+| Previous record with relaxation (L) | 117318681 bytes |
+| STARLIT Improvement (1 - S/L) | 1.553% |
 
 | Experiment platform |  |
 | --- | ----------- |
@@ -34,16 +34,20 @@ Below is the current STARLIT compression result (Linux, x86 processor):
 | Decompression RAM max usage | 9910MB |
 | Decompression disk usage | 20GB |
 
-Compressor/decompressor perform similar stages/actions. As a result, the compression time is approximately the same as the decomression time. Simirly, RAM/disk usage during compression is also approximately the same as during decompression. 
+Compressor and decompressor perform similar stages/actions. As a result, the compression time is approximately the same as the decomression time. Similarly, RAM and disk usages during compression is also approximately the same as one during decompression. 
 
 # STARLIT algorithm description
-STARLIT algorithm is changing the order of articles in the initial enwik9. This algorithm is based on two insights. Firstly, enwik9 is a collection of articles whose titles are sorted by alphabet. As a result, if articles are reordered as part of a compressor, the initial order can be easily restored by a conventional sorting algorithm that won't increase the size of the decompressor much. Secondly, state-of-the-art compressors (cmix, phda9, etc) are based on accumulating context information in a buffer that is limited in size. The accumulated context information is used for predicting the next symbol/bit. We hypothesize that it is better to use the accumulated context information as soon as possible. Due to the limited size of the buffer the longer this information stays in the buffer the higher are the chances that it will be corrupted or removed. As a result, it can be beneficial to place similar articles nearby so context information that they share is reused as much as possible before eviction from the buffer.
+STARLIT algorithm is changing the order of articles in the initial enwik9. This algorithm is based on two insights. 
+Firstly, enwik9 is a collection of articles whose titles are sorted by alphabet. As a result, if articles are reordered as part of a compressor, the initial order can be easily restored by a conventional sorting algorithm (e.g. Bubble Sort) that is simple and negligibly increases the size of the decompressor. 
+Secondly, state-of-the-art compressors (cmix, phda9, etc) are based on accumulating context information in a memory buffer that is limited in size. The accumulated context information is used for predicting the next symbol/bit. We hypothesize that it is better to use the accumulated context information as soon as possible. Due to the limited size of the buffer, the longer the accumulated information stays in the buffer the higher the chances that it will be corrupted or removed. As a result, it can be beneficial to place _similar_ articles nearby so context information that they share is reused as much as possible before eviction from the buffer.
+To sum up, the idea behind STARLIT is to reorder enwik articles in a way that similar articles are placed together. Such ordering makes prediction methods employed by cmix more accurate and results in a higher degree of compression.
 
-STARLIT requires finding a new order of articles that minimizes the size of an archive outputted by an existing compressor (we are using cmix). Moreover, the part of STARLIT that searches for a new order of articles is not limited in complexity (code size) as it is not required to include it into the compressor: only the new order of articles should be included. Based on this observation, I implemented the STARLIT new-order-searching phase in pyspark. During that phase, firstly, each article is mapped to a feature vector using a Doc2Vec model. Secondly, considering each article feature vector to be a point in a Euclidean space, the Traveling Salesman Problem is solved resulting in the shortest path visiting each point. The shortest path represents the order of all articles where similar articles are placed nearby. 
 
-The submission includes the new order under `./src/readalike_prepr/data/new_article_order`. The nth row of this file shows the index of an article in the original enwik9 file that STARLIT places as the nth article in its output. 
+STARLIT requires finding a new order of articles that minimizes the size of an archive outputted by an existing compressor (we are using cmix). Moreover, the part of STARLIT that searches for a new order of articles is not limited in complexity (code size) as it is not required to include it into the compressor: only the new order of articles should be included. Based on this observation, we implemented the STARLIT new-order-searching phase in PySpark. During the searching phase, firstly, each article is mapped to a feature vector using a Doc2Vec model. Secondly, considering each feature vector to be a point in a Euclidean space, the Traveling Salesman Problem is solved resulting in the shortest path visiting each point. As a result, the found shortest path represents the order of all articles where similar articles are placed nearby. 
 
-# Changes in cmix
+The submission includes the new article order file under `./src/readalike_prepr/data/new_article_order`. The nth row of this file shows the index of an article in the original enwik9 file that STARLIT algorithm places as the nth article in its output. 
+
+# Changes to cmix_v18
 * disabling PAQ8 model
 * disabling all layer1 mixers
 * reducing the memory budget of PPMD models to 850MB 
@@ -53,31 +57,64 @@ The submission includes the new order under `./src/readalike_prepr/data/new_arti
 * compiling with profiled guided optimizations
 * embedding a compressed English dictionary and a file with new article order as part of the compressor binary
 
-# Instructions for building STARLIT compressor
-Creating STARLIT compressor binary includes the following steps:
-* building cmix + STARLIT by clang with profile guided optimizations
-* compressing the resulting compressor binary with UPX
-* compressing the English dictionary by the compressor
-* compressing the file with the new order of articles by the compressor
-* merging the compressor binary with the compressed versions of the English dictionary and the new order file 
+# Changes to phda9 enwik8 specific transforms (phda9 preprocessor for the Hutter Prize 2017 submission by Alexander Rhatushnyak). 
+* merginag all preprocessing functions to one header file under 
 
-Constructing STARLIT compressor requires clang-12, upx-ucl and make packages. On Ubuntu 18, these packages can be installed by running the following scripts:
+# Instructions for compiling STARLIT compressor from sources
+Creating the STARLIT compressor executable file includes the following steps:
+1) compiling cmix + STARLIT by clang-12 with profile guided optimizations
+2.a) compressing the resulting compressor executable file with the Ultimate Packer for eXecutables (UPX)
+2.b) compressing the cmix English dictionary by the resulting compressor
+2.c) compressing the file with the new order of articles by the resulting compressor
+2.d) merging the compressor executable file with the compressed versions of 1) the cmix English dictionary and 2) the new order file 
+
+# Installing packages required for compiling STARLIT compressor from sources on Ubuntu 18
+Compiling STARLIT compressor from sources requires clang-12, upx-ucl, and make packages. On Ubuntu 18, these packages can be installed by running the following scripts:
 `./install_tools/install_upx.sh`
 `./install_tools/install_clang-12.sh`
 
-We provide a bash script for constructing STARLIT compressor on Ubuntu 18. It places the compressor binary named `cmix` in `./run` directory. The script can be found under
+# Instructions for compiling STARLIT compressor from sources
+We provide a bash script for compiling STARLIT compressor from sources on Ubuntu 18. This script places the STARLIT executalbe file named as `cmix` in `./run` directory. The script can be run as
 `./build_and_construct_comp.sh`
 
+# Instructions for constructing STARLIT compressor using a prebuilt executable file
+If clang-12, upx-ucl, or make packages are not available, it is possible to construct cmix + STARLIT executable file using a prebuilt cmix version (tested only on Ubuntu 18). We provide a script for constructing STARLIT compressor from a prebuild executable file. This script places the final STARLIT compressor file under `./run`. The script can be run as
+`./construct_from_prebuilt.sh ./prebuild_binary/cmix_amdzen2`
+
+NOTE: currently, we provide a prebuilt STARLIT executable optimized for an AMD's Zen2 processor. Please contact the author if you need a prebuild executable file optimized for another CPU._
+
 # Instructions for running STARLIT compressor
-To run the compressor use
+To run the STARLIT compressor use
 ```bash
 cd ./run
 cmix -e <PATH_TO_ENWIK9> enwik9.comp
 ```
-NOTE: the current version of STARLIT compressor can only work when the compressor executable file is named `cmix` and when it is launched from the directory containing the executable file.
+_NOTE: the current version of the STARLIT compressor can only work when the STARLIT executable file is named `cmix` and when it is launched from the directory containing it._
+
+# Expected STARLIT compressor/decompressor output
+When launched as described above, the STARLIT compressor would 
+1) decompress the cmix English dictionary
+2) decompress the new order file 
+3) apply STARLIT article reordering
+4) apply phda9 preprcessing (enwik-specific transforms)
+5) run normal cmix compressing routine
+
+For stages 1, 2, and 5, the STARLIT compressor would print progress (similarly as the original cmix does it). The stages 3 and 4 are expected to run less than 15 minutes in total. After finishing stages 3 and 4, the stage 5 would print progress. After finishing stages 1 and 2, the output is expected to be 
+```bash
+77992 bytes -> 415377 bytes in 112.10 s.
+210080 bytes -> 1592865 bytes in 383.34 s.
+```
+After finishing stage 5, the compressor is expected to output an executable file named `archive9` in the same directory (`./run`). The file `archive9` when executed is expected to produce the original enwi9. The file `archive9` should be launched wihtout argments from the directory containing it. 
+```bash
+cd ./run
+./archive9
+```
+
+_NOTE: both STARLIT compressor (executalbe `cmix`) and decompressor (exectable `archive9`) require about 20GB of disk space._ 
 
 # Acknowelegments
-The author thanks Byron Knoll for making the source code of cmix compressor publicly available, and Alexander Rhatushnyak for sharing the source code of the phda9 enwik8 preprocessing stage.
+The author thanks Byron Knoll for making the source code of the cmix compressor publicly available. The author also thanks Alexander Rhatushnyak for open-sourcing the set of enwik8 specific transforms of phda9 (that is a part of the hutter Prize 2017 submission) the source code of the phda9 enwik8 preprocessing stage. The authors is also grateful to Marcus Hutter and Matt Mahoney for assistance with the submission. 
 
-# Original cmix sources 
+# Original sources (cmix and phda9 preprocessing)
 [This is a link to the original cmix repo](https://github.com/byronknoll/cmix)
+[This is a link to the phda9-2017 enwik8 specific transforms](https://encode.su/attachment.php?s=849482f9bef20cb68ebc7aaba0f5ff49&attachmentid=6353&d=1546482845)
