@@ -5,7 +5,7 @@ This repository includes materials for a Hutter Prize Submission (submission-202
 * the source code of a new preprocessing algorithm that is tailored for enwik9 compression -- the _SorTing ARticLes by sImilariTy_ (STARLIT)
 * the source code of a cmix-based compressor for enwik9 amended to meet the Hutter Prize restrictions on running time and usage of RAM
 * the source code of the HP-2017 enwik8-specific preprocessor amended to work with enwik9
-* a set of scripts for building and constructing the compressor combining the components mentioned above on Ubuntu 18
+* a set of scripts for building and constructing the compressor combining the components mentioned above on Ubuntu 18/20
 * a pre-built executable file of STARLIT compressor for an AMD's Zen 2 processor
 
 The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs an executable file -- a self-extracting archive (executable) that restores enwik9. 
@@ -13,7 +13,8 @@ The compressor that can be constructed using the sources/tools above can only wo
 The compressor/decompressor was tested on Ubuntu 18 and x86 CPU. 
 
 # Submission description
-STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. For brevity, further in this document, we use STARLIT to mean a compressor/decompressor that features 1) STARLIT preprocessing algorithm, 2) HP-2017 preprocessing algorithm, and 3) cmix compression routine.  
+STARLIT beats the current Hutter Prize result when combined with the cmix compressor and phda9 preprocessing. For brevity, further in this document, we use STARLIT to mean a compressor/decompressor that features 1) STARLIT preprocessing algorithm, 2) 
+preprocessing algorithm, and 3) cmix compression routine.  
 
 Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor):
 | Metric | Value |
@@ -75,8 +76,8 @@ Creating the STARLIT compressor executable file includes the following steps:
 
 We refer to the stage 1 as _building_, and to the stage 2 as _constructing_. 
 
-# Installing packages required for compiling STARLIT compressor from sources on Ubuntu 18
-Building STARLIT compressor from sources requires clang-12, upx-ucl, and make packages. On Ubuntu 18, these packages can be installed by running the following scripts:
+# Installing packages required for compiling STARLIT compressor from sources on Ubuntu 18/20
+Building STARLIT compressor from sources requires clang-12, upx-ucl, and make packages. On Ubuntu 18/20, these packages can be installed by running the following scripts:
 `./install_tools/install_upx.sh`
 `./install_tools/install_clang-12.sh`
 
@@ -89,10 +90,10 @@ We provide a bash script for compiling STARLIT compressor from sources on Ubuntu
 # Instructions for constructing STARLIT compressor using a pre-built executable file
 If clang-12, upx-ucl, or make packages are not available, it is possible to construct a STARLIT executable file using a pre-built version (tested only on Ubuntu 18). We provide a script for constructing the STARLIT compressor from a prebuild executable file. This script places the STARLIT compressor file under `./run`. The script can be run as
 ```bash
-./construct_from_prebuilt.sh ./prebuild_binary/cmix_amdzen2
+./construct_from_prebuilt.sh ./prebuild_binary/cmix_amdzen2_ub18
 ```
 
-_NOTE: currently, we provide a prebuilt STARLIT executable optimized for an AMD's Zen 2 processor. Please contact the author if you need a prebuild executable file optimized for another CPU._
+_NOTE: currently, we provide a prebuilt STARLIT executable optimized for an AMD's Zen 2 processor and Ubuntu 20. Please contact the author if you need a prebuild executable file optimized for another CPU and/or OS._
 
 # Instructions for running STARLIT compressor
 To run the STARLIT compressor use
@@ -105,9 +106,9 @@ _NOTE: the current version of the STARLIT compressor can only work when the STAR
 # Expected STARLIT compressor/decompressor output
 When launched as described above, the STARLIT compressor would 
 1. decompress the cmix English dictionary
-2. decompress the new order file 
-3. apply STARLIT algoritm (reorder articles) 
-4. apply HP-2017 preprcessing (enwik-specific transforms)
+2. decompress the new article order file 
+3. apply the STARLIT algoritm (reorder articles) 
+4. apply the HP-2017 preprcessor (enwik-specific transforms)
 5. run normal cmix compressing routine
 
 For stages 1, 2, and 5, the STARLIT compressor would print progress (similarly as the original cmix does it). The stages 3 and 4 are expected to run less than 15 minutes in total. After finishing stages 3 and 4, the stage 5 would print progress. After finishing stages 1 and 2, the output is expected to be 
@@ -117,7 +118,7 @@ For stages 1, 2, and 5, the STARLIT compressor would print progress (similarly a
 210080 bytes -> 1592865 bytes in 383.34 s.
 ***
 ```
-After finishing stage 5, the compressor is expected to output an executable file named `archive9` in the same directory (`./run`). The file `archive9` when executed is expected to produce the original enwi9. The file `archive9` should be launched wihtout argments from the directory containing it. 
+After finishing the stage 5, the compressor is expected to output an executable file named `archive9` in the same directory (`./run`). The file `archive9` when executed is expected to reproduce the original enwi9. The executable file `archive9` should be launched wihtout argments from the directory containing it. 
 ```bash
 cd ./run
 ./archive9
