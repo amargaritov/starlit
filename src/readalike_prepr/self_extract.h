@@ -84,7 +84,7 @@ int selfextract_comp() {
   fwrite(p1 + decmpressor_binary_size, header.dict_size, 1, fo);
   fclose(fo);
 //  std::cout << "Decompressing dictionary..." << std::endl;
-  system("./cmix -d .dict.comp .dict");
+  system("./archive9 -d .dict.comp .dict");
 
 // produce article order and decompress it
   fo = fopen(".new_article_order.comp", "wb");
@@ -94,7 +94,7 @@ int selfextract_comp() {
   fwrite(p1 + decmpressor_binary_size + header.dict_size, header.new_article_order_size, 1, fo);
   fclose(fo);
 //  std::cout << "Decompressing the file with the new article order..." << std::endl;
-  system("./cmix -d .new_article_order.comp .new_article_order");
+  system("./archive9 -d .new_article_order.comp .new_article_order");
 
   free(p1);
   malloc_trim(0);
