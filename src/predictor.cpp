@@ -188,7 +188,7 @@ void Predictor::AddMixers() {
   }
 //  std::cout << "Vocab size" << vocab_size << std::endl;
   AddByteMixer(new ByteMixer(byte_models_.size(), manager_.bit_context_, vocab_,
-      vocab_size, new Lstm(vocab_size, vocab_size, 180, 1, 128, 0.03, 10)));
+      vocab_size, new Lstm(vocab_size, vocab_size, 200, 1, 128, 0.03, 10)));
   AddAuxiliary();
 
   for (int i = 0; i < 3; ++i) {
