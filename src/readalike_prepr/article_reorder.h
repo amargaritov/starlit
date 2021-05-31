@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 #include <utility>
+
+#define NUM_OF_ARTICLES 243425
 //#include <algorithm>
 
 //#include <iostream>
@@ -134,10 +136,21 @@ int reorder() {
 //    std::cout << it->id << " " << it->start << " " << it->end << std::endl;
 //  }
 
+  std::vector<int> used(NUM_OF_ARTICLES, 0);
   while (std::getline(order_file, s)) {
 //    std::cout << s << std::endl << std::flush;
     positions.push_back(std::stoi(s));
+    used[std::stoi(s)] = 1;
   }
+
+  if (positions.size() < NUM_OF_ARTICLES) {
+	for (int i = 0; i < NUM_OF_ARTICLES; i++) {
+		if (used[i] == 0) {
+			positions.push_back(i);
+		}
+	}
+  }
+			  
 
   std::ofstream out(".main_reordered");
   for(int i = 0; i < positions.size(); i++) {
