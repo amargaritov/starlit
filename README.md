@@ -78,16 +78,18 @@ We refer to the stage 1 as _building_, and to the stage 2 as _constructing_.
 
 # Installing packages required for compiling STARLIT compressor from sources on Ubuntu 18/20
 Building STARLIT compressor from sources requires clang-12, upx-ucl, and make packages. On Ubuntu 18/20, these packages can be installed by running the following scripts:
+```bash
 `./install_tools/install_upx.sh`
 `./install_tools/install_clang-12.sh`
+```
 
-# Instructions for compiling STARLIT compressor from sources
+# Compiling STARLIT compressor from sources
 We provide a bash script for compiling STARLIT compressor from sources on Ubuntu 18. This script places the STARLIT executalbe file named as `cmix` in `./run` directory. The script can be run as
 ```bash
 ./build_and_construct_comp.sh
 ```
 
-# Instructions for constructing STARLIT compressor using a pre-built executable file
+# Constructing STARLIT compressor using a pre-built executable file
 If clang-12, upx-ucl, or make packages are not available, it is possible to construct a STARLIT executable file using a pre-built version (tested only on Ubuntu 18). We provide a script for constructing the STARLIT compressor from a prebuild executable file. This script places the STARLIT compressor file under `./run`. The script can be run as
 ```bash
 ./construct_from_prebuilt.sh ./prebuild_binary/cmix_amdzen2_ub18
@@ -95,7 +97,7 @@ If clang-12, upx-ucl, or make packages are not available, it is possible to cons
 
 _NOTE: currently, we provide a prebuilt STARLIT executable optimized for an AMD's Zen 2 processor and Ubuntu 20. Please contact the author if you need a prebuild executable file optimized for another CPU and/or OS._
 
-# Instructions for running STARLIT compressor
+# Running STARLIT compressor
 To run the STARLIT compressor use
 ```bash
 cd ./run
@@ -118,7 +120,9 @@ For stages 1, 2, and 5, the STARLIT compressor would print progress (similarly a
 210080 bytes -> 1592865 bytes in 383.34 s.
 ***
 ```
-After finishing the stage 5, the compressor is expected to output an executable file named `archive9` in the same directory (`./run`). The file `archive9` when executed is expected to reproduce the original enwi9. The executable file `archive9` should be launched wihtout argments from the directory containing it. 
+
+# Running STARLIT decompressor
+The compressor is expected to output an executable file named `archive9` in the same directory (`./run`). The file `archive9` when executed is expected to reproduce the original enwi9 as a file named `enwik9_restored`. The executable file `archive9` should be launched wihtout argments from the directory containing it. 
 ```bash
 cd ./run
 ./archive9
