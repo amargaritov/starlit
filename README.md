@@ -79,8 +79,8 @@ We refer to the stage 1 as _building_, and to the stage 2 as _constructing_.
 # Installing packages required for compiling STARLIT compressor from sources on Ubuntu 18/20
 Building STARLIT compressor from sources requires clang-12, upx-ucl, and make packages. On Ubuntu 18/20, these packages can be installed by running the following scripts:
 ```bash
-`./install_tools/install_upx.sh`
-`./install_tools/install_clang-12.sh`
+./install_tools/install_upx.sh
+./install_tools/install_clang-12.sh
 ```
 
 # Compiling STARLIT compressor from sources
