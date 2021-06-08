@@ -1,5 +1,6 @@
 # Hutter Prize Submission 2021a: STARLIT + cmix
 Released by Artemiy Margaritov on May 10, 2021.
+Submission accepted for public comments and verification on May 31, 2021
 
 This repository includes materials for a Hutter Prize Submission (submission-2021a). It contains:
 * the source code of a new preprocessing algorithm that is tailored for enwik9 compression -- the _SorTing ARticLes by sImilariTy_ (STARLIT)
@@ -19,19 +20,19 @@ preprocessing algorithm, and 3) cmix compression routine.
 Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor):
 | Metric | Value |
 | --- | ----------- |
-| STARLIT compressor's executable file size (S1)| 403308 bytes |
-| STARLIT self-extracting archive size (S2)| 115093300 bytes |
-| Total size (S) | 115496608 bytes |
+| STARLIT compressor's executable file size (S1)| 390308 bytes |
+| STARLIT self-extracting archive size (S2)| 114713624 bytes |
+| Total size (S) | 115103932 bytes |
 | Previous record | 116673681 bytes |
-| Relaxation (as of May 10 2021)| 129 days * 5000 bytes = 645000 bytes |
-| Previous record with relaxation (L) | 117318681 bytes |
-| STARLIT improvement (1 - S/L) | 1.553% |
+| Relaxation (as of May 31 2021)| 150 days * 5000 bytes = 750000 bytes |
+| Previous record with relaxation (L) | 117423681 bytes |
+| **STARLIT improvement (1 - S/L)** | **1.975%** |
 
 | Experiment platform |  |
 | --- | ----------- |
 | Operating system | Ubuntu 18 |
-| Processor | Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz ([Geekbenck score 640](https://browser.geekbench.com/processors/intel-xeon-silver-4114))
-| Decompression running time | 76 hours |
+| Processor | AMD 7302P CPU @ 3.00GHz ([Geekbenck score 816](https://browser.geekbench.com/processors/amd-epyc-7302p))
+| Decompression running time | 54 hours |
 | Decompression RAM max usage | 9910MB |
 | Decompression disk usage | 20GB |
 
