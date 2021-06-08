@@ -8,7 +8,7 @@ This repository includes materials for a Hutter Prize Submission (submission-202
 * the source code of a cmix-based compressor for enwik9 amended to meet the Hutter Prize restrictions on running time and RAM usage
 * the source code of the HP-2017 enwik8-specific preprocessor amended to work on enwik9
 * a set of scripts for building and constructing the compressor combining the components mentioned above on Ubuntu 18
-* a pre-built executable file of STARLIT compressor for an AMD's Zen 2 processor
+* a pre-built executable file of STARLIT compressor for an AMD's Zen 1 processor
 
 The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs an executable file -- a self-extracting archive that restores enwik9 in a file name `enwik9_restored`. 
 
