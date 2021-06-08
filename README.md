@@ -1,5 +1,6 @@
 # Hutter Prize Submission 2021a: STARLIT + cmix
 Released by Artemiy Margaritov on May 10, 2021.
+
 Submission accepted for public comments and verification on May 31, 2021
 
 This repository includes materials for a Hutter Prize Submission (submission-2021a). It contains:
