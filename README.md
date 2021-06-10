@@ -10,9 +10,9 @@ This repository includes materials for a Hutter Prize Submission (submission-202
 * a set of scripts for building and constructing the compressor combining the components mentioned above on Ubuntu 18
 * a pre-built executable file of STARLIT compressor for an AMD's Zen 1 processor
 
-The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs an executable file -- a self-extracting archive that restores enwik9 in a file name `enwik9_restored`. 
+The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs an executable file -- a self-extracting archive that restores enwik9 in a file named `enwik9_restored`. 
 
-The compressor/decompressor was tested on Ubuntu 18 and a x86 CPU. 
+The compressor/decompressor was tested on Ubuntu 18 and an x86 CPU. 
 
 # Submission description
 STARLIT beats the current Hutter Prize result when combined with the cmix compressor and the HP-2017 preprocessor. For brevity, further in this document, we use STARLIT to mean a compressor/decompressor that features 1) STARLIT preprocessing algorithm, 2) 
