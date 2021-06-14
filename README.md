@@ -3,7 +3,7 @@ Released by Artemiy Margaritov on May 10, 2021.
 
 Submission accepted for public comments and verification on May 31, 2021
 
-This repository includes materials of a submission to the contest of Lossless Compression of Human Knowledge (known as the Hutter Prize). This repo contains:
+This repository includes materials of a submission to the Contest of Lossless Compression of Human Knowledge (known as the Hutter Prize). This repo contains:
 * the source code of a new preprocessing algorithm that is tailored for enwik9 compression -- the _SorTing ARticLes by sImilariTy_ (STARLIT)
 * the source code of a cmix-based compressor for enwik9 amended to meet the Hutter Prize restrictions on running time and RAM usage
 * the source code of the HP-2017 enwik8-specific preprocessor amended to work on enwik9
