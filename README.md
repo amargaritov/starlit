@@ -1,4 +1,4 @@
-# Hutter Prize Submission 2021a: STARLIT + cmix
+# Human Knowledge Compression Contest Submission 2021a: STARLIT + cmix
 Released by Artemiy Margaritov on May 10, 2021.
 
 Submission accepted for public comments and verification on May 31, 2021
@@ -12,7 +12,7 @@ This repository includes materials of a submission to the Contest of Lossless Co
 
 The compressor that can be constructed using the sources/tools above can only work with enwik9. As per Hutter Prize Competition requirements, the compressor outputs an executable file -- a self-extracting archive that restores enwik9 in a file named `enwik9_restored`. 
 
-The compressor/decompressor was tested on Ubuntu 18 and an x86 CPU. 
+The compressor/decompressor was tested and validated on Ubuntu 18/20 and an x86 CPU. 
 
 # Submission description
 STARLIT beats the current Hutter Prize result when combined with the cmix compressor and the HP-2017 preprocessor. For brevity, further in this document, we use STARLIT to mean a compressor/decompressor that features 1) STARLIT preprocessing algorithm, 2) 
