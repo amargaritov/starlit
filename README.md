@@ -19,7 +19,7 @@ STARLIT beats the current Hutter Prize result when combined with the cmix compre
 HP-2017 preprocessing algorithm, and 3) cmix compression routine.  
 
 Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor):
-| Metric | Value on platofrm1, B | Value on platofrm2, B |
+| Metric | Value on platofrm1, bytes | Value on platofrm2, bytes |
 | --- | ----------- |-----|
 | STARLIT compressor's executable file size (S1)| 390308 | 401505 |
 | STARLIT self-extracting archive size (S2)| 114905622 | 114951433 |
