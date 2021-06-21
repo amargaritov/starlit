@@ -29,13 +29,15 @@ Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor
 | Previous record with relaxation (L) | 117423681  | 117423681|
 | **STARLIT improvement (1 - S/L)** | **1.81%** | **1.763** |
 
-| Experiment platforms | platform1 | platform2 |
+| Settings | Platform1 | Platform2 |
 | --- | ----------- |-----|
 | Operating system | Ubuntu 18 | Ubuntu 20 under Windows | 
 | Processor | AMD 7302P CPU @ 3.00GHz ([Geekbenck score 816](https://browser.geekbench.com/processors/amd-epyc-7302p)) | Intel Core i7-1165G7 @2.80 GHz |
-| Decompression running time | 54 hours | 47h41m | 
-| Decompression RAM max usage | 9910MB | 10230MB |
+| Decompression running time | 54 hours | 47h41m* | 
+| Decompression RAM max usage | 9910MB | 10230MB* |
 | Decompression disk usage | 20GB | 17.5 GB |
+
+*increased due to the overhead of running Linux as a virtual machine on Windows; native Linux executions have lower values.  
 
 Compressor and decompressor perform similar stages. As a result, the compression time is approximately the same as the decomression time. Similarly, RAM and disk usages during compression is also approximately the same as one during decompression. 
 
