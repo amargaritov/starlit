@@ -27,7 +27,7 @@ Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor
 | Previous record | 116673681 | 116673681 |
 | Relaxation (as of May 31 2021)| 150 days * 5000B = 750000 | 750000|
 | Previous record with relaxation (L) | 117423681  | 117423681|
-| **STARLIT improvement (1 - S/L)** | **1.81%** | **1.763** |
+| **STARLIT improvement (1 - S/L)** | **1.81%** | **1.763%** |
 
 | Settings | Platform1 | Platform2 |
 | --- | ----------- |-----|
