@@ -1,4 +1,4 @@
-# Human Knowledge Compression Contest Submission 2021a: STARLIT + cmix
+# Human Knowledge Compression Contest Submission: STARLIT+cmix
 Released by Artemiy Margaritov on May 10, 2021.
 
 Submission accepted for public comments and verification on May 31, 2021
