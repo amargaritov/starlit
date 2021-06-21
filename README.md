@@ -19,23 +19,23 @@ STARLIT beats the current Hutter Prize result when combined with the cmix compre
 HP-2017 preprocessing algorithm, and 3) cmix compression routine.  
 
 Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor):
-| Metric | Value |
+| Metric | Value on platofrm1, B | Value on platofrm2, B |
 | --- | ----------- |
-| STARLIT compressor's executable file size (S1)| 390308 bytes |
-| STARLIT self-extracting archive size (S2)| 114905622 bytes |
-| Total size (S) | 115295930 bytes |
-| Previous record | 116673681 bytes |
-| Relaxation (as of May 31 2021)| 150 days * 5000 bytes = 750000 bytes |
-| Previous record with relaxation (L) | 117423681 bytes |
-| **STARLIT improvement (1 - S/L)** | **1.81%** |
+| STARLIT compressor's executable file size (S1)| 390308 | 401505 | 
+| STARLIT self-extracting archive size (S2)| 114905622 | 114951433 | 
+| Total size (S) | 115295930 | 115352938 | 
+| Previous record | 116673681 | 116673681 |
+| Relaxation (as of May 31 2021)| 150 days * 5000 bytes = 750000 | 750000 | 
+| Previous record with relaxation (L) | 117423681  | 117423681 | 
+| **STARLIT improvement (1 - S/L)** | **1.81%** | **1.763** | 
 
-| Experiment platform |  |
+| Experiment platforms | platform1 | platform2 |
 | --- | ----------- |
-| Operating system | Ubuntu 18 |
-| Processor | AMD 7302P CPU @ 3.00GHz ([Geekbenck score 816](https://browser.geekbench.com/processors/amd-epyc-7302p))
-| Decompression running time | 54 hours |
-| Decompression RAM max usage | 9910MB |
-| Decompression disk usage | 20GB |
+| Operating system | Ubuntu 18 | Ubuntu 20 under Windows | 
+| Processor | AMD 7302P CPU @ 3.00GHz ([Geekbenck score 816](https://browser.geekbench.com/processors/amd-epyc-7302p)) | Intel Core i7-1165G7 @2.80 GHz |
+| Decompression running time | 54 hours | 47h41m | 
+| Decompression RAM max usage | 9910MB | 10230MB |
+| Decompression disk usage | 20GB | 17.5 GB |
 
 Compressor and decompressor perform similar stages. As a result, the compression time is approximately the same as the decomression time. Similarly, RAM and disk usages during compression is also approximately the same as one during decompression. 
 
