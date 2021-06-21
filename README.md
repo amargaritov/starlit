@@ -20,17 +20,17 @@ HP-2017 preprocessing algorithm, and 3) cmix compression routine.
 
 Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor):
 | Metric | Value on platofrm1, B | Value on platofrm2, B |
-| --- | ----------- |
-| STARLIT compressor's executable file size (S1)| 390308 | 401505 | 
-| STARLIT self-extracting archive size (S2)| 114905622 | 114951433 | 
-| Total size (S) | 115295930 | 115352938 | 
+| --- | ----------- |-----|
+| STARLIT compressor's executable file size (S1)| 390308 | 401505 |
+| STARLIT self-extracting archive size (S2)| 114905622 | 114951433 |
+| Total size (S) | 115295930 | 115352938 |
 | Previous record | 116673681 | 116673681 |
-| Relaxation (as of May 31 2021)| 150 days * 5000 bytes = 750000 | 750000 | 
-| Previous record with relaxation (L) | 117423681  | 117423681 | 
-| **STARLIT improvement (1 - S/L)** | **1.81%** | **1.763** | 
+| Relaxation (as of May 31 2021)| 150 days * 5000B = 750000 | 750000|
+| Previous record with relaxation (L) | 117423681  | 117423681|
+| **STARLIT improvement (1 - S/L)** | **1.81%** | **1.763** |
 
 | Experiment platforms | platform1 | platform2 |
-| --- | ----------- |
+| --- | ----------- |-----|
 | Operating system | Ubuntu 18 | Ubuntu 20 under Windows | 
 | Processor | AMD 7302P CPU @ 3.00GHz ([Geekbenck score 816](https://browser.geekbench.com/processors/amd-epyc-7302p)) | Intel Core i7-1165G7 @2.80 GHz |
 | Decompression running time | 54 hours | 47h41m | 
