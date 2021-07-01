@@ -1,7 +1,8 @@
 # Human Knowledge Compression Contest Submission: STARLIT+cmix
 Released by Artemiy Margaritov on May 10, 2021.
 
-Submission accepted for public comments and verification on May 31, 2021
+Submission was accepted for verification by the HKCC committee on May 31, 2021
+[Submission was openned for public comments on June 7, 2021](https://groups.google.com/g/hutter-prize/c/DLLpWZV19Go)
 
 This repository includes materials of a submission to the Contest of Lossless Compression of Human Knowledge (known as the Hutter Prize). This repo contains:
 * the source code of a new preprocessing algorithm that is tailored for enwik9 compression -- the _SorTing ARticLes by sImilariTy_ (STARLIT)
