@@ -33,8 +33,8 @@ Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor
 | --- | ----------- |-----|
 | Result reported/validated by | James Bowery | Matt Mahoney | 
 | STARLIT compressor's executable file size (S1)| 390308 | 401505 |
-| STARLIT self-extracting archive size (S2)| 114905622 | 114951433 |
-| Total size (S) | 115295930 | 115352938 |
+| STARLIT self-extracting archive size (S2)| 114904928 | 114951433 |
+| Total size (S) | 115295236 | 115352938 |
 | Previous record | 116673681 | 116673681 |
 | Relaxation (as of May 31 2021)| 150 days * 5000B = 750000 | 750000|
 | Previous record with relaxation (L) | 117423681  | 117423681|
