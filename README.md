@@ -31,6 +31,7 @@ Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor
 
 | Metric | Value on AMD-based system, bytes | Value on Intel-based system, bytes |
 | --- | ----------- |-----|
+| Result reported by | James Bowery | Matt Mahoney | 
 | STARLIT compressor's executable file size (S1)| 390308 | 401505 |
 | STARLIT self-extracting archive size (S2)| 114905622 | 114951433 |
 | Total size (S) | 115295930 | 115352938 |
