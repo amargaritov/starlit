@@ -21,7 +21,15 @@ STARLIT beats the current Hutter Prize result when combined with the cmix compre
 HP-2017 preprocessing algorithm, and 3) cmix compression routine.  
 
 Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor):
-| Metric | Value on platofrm1, bytes | Value on platofrm2, bytes |
+| Settings | AMD-based system | Intel-based system |
+| --- | ----------- |-----|
+| Operating system | Ubuntu 18 | Ubuntu 20 under Windows | 
+| Processor | AMD 7302P CPU @ 3.00GHz ([Geekbenck score 816](https://browser.geekbench.com/processors/amd-epyc-7302p)) | Intel Core i7-1165G7 @2.80 GHz |
+| Decompression running time | 54 hours | 47h41m* | 
+| Decompression RAM max usage | 9910MB | 10230MB* |
+| Decompression disk usage | 20GB | 17.5 GB |
+
+| Metric | Value on AMD-based system, bytes | Value on Intel-based system, bytes |
 | --- | ----------- |-----|
 | STARLIT compressor's executable file size (S1)| 390308 | 401505 |
 | STARLIT self-extracting archive size (S2)| 114905622 | 114951433 |
@@ -30,14 +38,6 @@ Below is the current STARLIT compressor result (Ubuntu 18 (Linux), x86 processor
 | Relaxation (as of May 31 2021)| 150 days * 5000B = 750000 | 750000|
 | Previous record with relaxation (L) | 117423681  | 117423681|
 | **STARLIT improvement (1 - S/L)** | **1.81%** | **1.763%** |
-
-| Settings | Platform1 | Platform2 |
-| --- | ----------- |-----|
-| Operating system | Ubuntu 18 | Ubuntu 20 under Windows | 
-| Processor | AMD 7302P CPU @ 3.00GHz ([Geekbenck score 816](https://browser.geekbench.com/processors/amd-epyc-7302p)) | Intel Core i7-1165G7 @2.80 GHz |
-| Decompression running time | 54 hours | 47h41m* | 
-| Decompression RAM max usage | 9910MB | 10230MB* |
-| Decompression disk usage | 20GB | 17.5 GB |
 
 *increased due to the overhead of running Linux as a virtual machine on Windows; native Linux executions have lower values.  
 
